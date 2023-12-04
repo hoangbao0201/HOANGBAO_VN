@@ -9,6 +9,7 @@ import IconPen from "@/components/modules/icons/IconPen";
 import IconBell from "@/components/modules/icons/IconBell";
 import { useSession } from "next-auth/react";
 import UserDropdown from "./UserDropdown";
+import Image from "next/image";
 
 interface HeaderProps {
     isDynamic?: boolean;
@@ -28,7 +29,17 @@ const Header = ({ isDynamic = true } : HeaderProps) => {
                 {/* <NavbarCollapse /> */}
 
                 <div className="text-lg font-semibold flex flex-shrink-0 items-center">
-                    <Link href={`/`}>HOANGBAO</Link>
+                    {/* <Link href={`/`}>HOANGBAO</Link> */}
+                    <Link href={`/`}>
+                        <Image
+                            width={100}
+                            height={100}
+                            src={`/static/images/logo.png`}
+                            alt="Logo HOANGBAO"
+                            priority={true}
+                            className="w-[100px]"
+                        />
+                    </Link>
                     <span className="mx-3 inline h-5 w-px bg-gray-300/60"></span>
                 </div>
                 <SearchMain />
@@ -54,16 +65,16 @@ const Header = ({ isDynamic = true } : HeaderProps) => {
                                             <IconBell size={20} className="h-10 mx-auto"/>
                                         </i>
                                     </Link>
-                                    {/* {status == "authenticated" ? (
-                                        // <UserDropdown />
-                                        <div></div>
+                                    {status == "authenticated" ? (
+                                        <UserDropdown />
+                                        // <div></div>
                                     ) : (
                                         <Link href={`/auth/login`}>
                                             <span className="py-2 px-3 rounded-md cursor-pointer bg-blue-600 hover:bg-blue-700 text-white">
                                                 Đăng nhập
                                             </span>
                                         </Link>
-                                    )} */}
+                                    )}
                                 </>
                             )
                         }

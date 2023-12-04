@@ -33,9 +33,9 @@ const CardBlog = ({blog} : CardBlog) => {
                         </AvatarRank>
                     </Link>
                     <div className="ml-2">
-                        <div className="flex items-center mb-1">
+                        <div className="flex items-center mb-[3px]">
                             <Link href={`/user/${blog.author.username}`}>
-                                <p className="hover:underline font-medium">
+                                <p className="hover:underline text-lg font-medium">
                                     {blog.author.name}
                                 </p>
                             </Link>

@@ -7,14 +7,6 @@ import AvatarRank from "@/components/common/AvatarRank";
 import MDXComponent from "@/components/common/MDXContent";
 import { GetBlogDetailProps } from "@/lib/services/blog.service";
 
-const BlogDetailData = {
-    title: '⚡️7 easy AI-product integrations (to keep up with the times 👴🏻👨‍🔧)',
-    image: '/images/bg_blog.png',
-    content: 'Get a working chatBot with a few lines of code, then customize and embed as deeply as you need to.',
-    author: {
-        avatar_url: "/images/avatar_user.jpg"
-    }
-}
 
 interface ContentBlogDetailProps {
     blog: GetBlogDetailProps
@@ -32,7 +24,6 @@ const ContentBlogDetail = ({ blog } : ContentBlogDetailProps) => {
                                 height={800}
                                 alt="ảnh bìa"
                                 src={"/static/images/default/bg_blog_lg.png"}
-                                // property="true"
                                 priority={true}
                                 className="mx-auto block max-h-80 w-full object-cover"
                             />
@@ -52,7 +43,7 @@ const ContentBlogDetail = ({ blog } : ContentBlogDetailProps) => {
                             <div className="ml-3">
                                 <div className="flex items-center mb-1">
                                     <Link href={`/user/${blog.author.username}`}>
-                                        <div className="hover:underline font-medium">
+                                        <div className="hover:underline text-lg font-medium">
                                             {blog.author.name}
                                         </div>
                                     </Link>

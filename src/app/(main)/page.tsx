@@ -1,9 +1,20 @@
+import { Metadata } from "next";
+import { Fragment } from "react";
+
+import siteMetadata from "@/lib/siteMetadata";
 import CardBlog from "@/components/common/CardBlog";
 import SideLeftHome from "@/components/modules/Home/SideLeftHome";
 import SideRightHome from "@/components/modules/Home/SideRightHome";
 import SkeletonCardBlog from "@/components/modules/skeletons/SkeletonCardBlog";
 import blogService, { GetBlogsProps } from "@/lib/services/blog.service";
-import { Fragment } from "react";
+
+export async function generateMetadata(): Promise<Metadata> {
+
+    return {
+        title: "Trang chủ | " + siteMetadata.title,
+        description: siteMetadata.description
+    };
+}
 
 const HomePage = async () => {
     const { success, blogs }: { success: boolean; blogs: GetBlogsProps[] } =

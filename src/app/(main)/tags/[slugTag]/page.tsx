@@ -1,15 +1,31 @@
 import { Fragment } from "react";
-import { ParsedUrlQuery } from "querystring";
-import { GetStaticPaths, GetStaticProps } from "next";
+import { Metadata, ResolvingMetadata } from "next";
 
 import CardBlog from "@/components/common/CardBlog";
 import blogService, { GetBlogsProps } from "@/lib/services/blog.service";
 import SideLeftTagDetail from "@/components/modules/Tag/SideLeftTagDetail";
 import SideRightTagDetail from "@/components/modules/Tag/SideRightTagDetail";
 import SkeletonCardBlog from "@/components/modules/skeletons/SkeletonCardBlog";
+import siteMetadata from "@/lib/siteMetadata";
 
 type Props = {
     params: { slugTag: string }
+    searchParams: { [key: string]: string | string[] | undefined };
+};
+
+export async function generateMetadata(
+    { params }: Props,
+    parent: ResolvingMetadata
+): Promise<Metadata> {
+    const previousImages = (await parent).openGraph?.images || []
+
+    return {
+        title: "Danh sách bài viết theo chủ đề " + params.slugTag + " | " + siteMetadata.title,
+        description: `Đây là danh sách bài viết theo chủ đề #${params.slugTag}.`,
+        openGraph: {
+            images: [`${siteMetadata.imageBlog}`, ...previousImages],
+        },
+    };
 }
 
 const TagDetailPage = async ({ params } : Props) => {

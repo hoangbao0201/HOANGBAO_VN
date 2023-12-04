@@ -4,12 +4,13 @@ import Link from "next/link";
 import Image from "next/image";
 import { Fragment } from "react";
 import { Menu, Transition } from "@headlessui/react";
+import { signOut, useSession } from "next-auth/react";
 
 const UserDropdown = () => {
-    // const { data: session, status } = useSession();
+    const { data: session, status } = useSession();
 
     const handleLogoutUser = () => {
-        // signOut({ redirect: false });
+        signOut({ redirect: false });
     };
 
     // console.log(session)
@@ -42,8 +43,7 @@ const UserDropdown = () => {
                                 <Menu.Item>
                                     {({ active }) => (
                                         <Link
-                                            // href={`/user/${session?.user.username}`}
-                                            href={`/`}
+                                            href={`/user/${session?.user.username}`}
                                             className={`${
                                                 active
                                                     ? "bg-gray-100"
@@ -59,13 +59,13 @@ const UserDropdown = () => {
                                                 className="w-10 h-10 rounded-full overflow-hidden block object-cover hover:outline-dashed outline-2 outline-blue-600"
                                             />
                                             <div className="ml-3">
-                                                {/* {session?.user.name} */}
+                                                {session?.user.name}
                                             </div>
                                         </Link>
                                     )}
                                 </Menu.Item>
                             </div>
-                            {/* {session?.user.username === "admin" && (
+                            {session?.user.username === "admin" && (
                                 <Menu.Item>
                                     {({ active }) => (
                                         <Link
@@ -81,7 +81,7 @@ const UserDropdown = () => {
                                         </Link>
                                     )}
                                 </Menu.Item>
-                            )} */}
+                            )}
                             <Menu.Item>
                                 {({ active }) => (
                                     <button
