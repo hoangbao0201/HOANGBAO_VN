@@ -9,6 +9,7 @@ import IconClose from "@/components/modules/icons/IconClose";
 import IconSearch from "@/components/modules/icons/IconSearch";
 import IconChevronRight from "@/components/modules/icons/IconChevronRight";
 import blogService, { GetSearchBlogsProps } from "@/lib/services/blog.service";
+import clsx from "clsx";
 
 const SearchMain = () => {
     const [isModalSearch, setIsModalSearch] = useState<boolean>(false);
@@ -90,6 +91,13 @@ const SearchMain = () => {
                                 <IconClose className="w-5 h-5 block" />
                             </i>
                         ))}
+                </div>
+                <div style={{ height: "2px" }} className={clsx(
+                    "loading-bar",
+                        {
+                            "before:content-none": !isLoadingSearch
+                        }
+                    )}>
                 </div>
                 <div className="overflow-y-auto py-2">
                     <ul className="py-2 px-2">
