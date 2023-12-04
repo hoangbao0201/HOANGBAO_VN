@@ -54,7 +54,7 @@ const Header = ({ isDynamic = true } : HeaderProps) => {
                                             <IconBell size={20} className="h-10 mx-auto"/>
                                         </i>
                                     </Link>
-                                    {status == "authenticated" ? (
+                                    {/* {status == "authenticated" ? (
                                         // <UserDropdown />
                                         <div></div>
                                     ) : (
@@ -63,7 +63,7 @@ const Header = ({ isDynamic = true } : HeaderProps) => {
                                                 Đăng nhập
                                             </span>
                                         </Link>
-                                    )}
+                                    )} */}
                                 </>
                             )
                         }
