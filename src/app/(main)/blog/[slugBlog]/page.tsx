@@ -13,8 +13,6 @@ const BlogDetailPage = async ({ params } : Props) => {
 
     const { success, blog } = await blogService.getBlogDetail(params.slugBlog);
 
-    console.log(blog)
-
     return (
         <>
             {/* {blog && (
