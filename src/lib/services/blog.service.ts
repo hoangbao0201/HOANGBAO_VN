@@ -149,7 +149,7 @@ class BlogService {
         try {
             const blogsRes = await fetch(`${API_BASE_URL}/api/blogs${query || ""}`, {
                 method: "GET",
-                cache: "no-store"
+                cache: "no-cache"
             });
 
             const blogs = await blogsRes.json();
