@@ -7,6 +7,7 @@ import convertTime from "@/utils/convertTime";
 import IconShare from "../../modules/icons/IconShare";
 import IconVerify from "../../modules/icons/IconVerify";
 import { GetBlogsProps } from "@/lib/services/blog.service";
+import IconEcllipsis from "@/components/modules/icons/IconEllipsis";
 
 
 interface CardBlog {
@@ -19,7 +20,7 @@ const CardBlog = ({blog} : CardBlog) => {
 
     return (
         <article className="md:px-3 flex mb-4 relative">
-            <div className="bg-white md:rounded-md w-full overflow-hidden shadow-sm outline-2 outline-blue-500 hover:outline-dashed">
+            <div className="bg-white md:rounded-md w-full overflow-hidden shadow-sm outline-2 outline-indigo-500 hover:outline-dashed">
                 <div className="flex px-4 pt-4">
                     <Link href={`/user/${blog.author.username}`}>
                         <AvatarRank rank={1}>
@@ -54,10 +55,15 @@ const CardBlog = ({blog} : CardBlog) => {
                             </p>
                         </Link>
                     </div>
+                    <div className="ml-auto">
+                        <span className="cursor-pointer p-1 rounded-full hover:bg-gray-200 block">
+                            <IconEcllipsis />
+                        </span>
+                    </div>
                 </div>
                 <div className="px-4 my-3">
                     <h2 className="text-2xl font-semibold mb-2 line-clamp-2">
-                        <Link href={`/blog/${blog.slug}-${blog.blogId}`} className="hover:underline hover:text-blue-800">
+                        <Link href={`/blog/${blog.slug}-${blog.blogId}`} className="hover:underline hover:text-indigo-700">
                             {blog.title}
                         </Link>
                     </h2>

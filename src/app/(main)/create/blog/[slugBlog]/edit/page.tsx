@@ -1,3 +1,4 @@
+
 "use client"
 
 import { ChangeEvent, Suspense, useEffect, useState } from "react";
@@ -17,7 +18,6 @@ import IconAlertCircle from "@/components/modules/icons/IconAlertCircle";
 import imageService from "@/lib/services/image.service";
 import { Session } from "next-auth";
 import { useRouter } from "next/navigation";
-import MDXComponent from "@/components/common/MDXContent";
 
 
 
@@ -32,7 +32,12 @@ interface StateDataBlogProps {
     published: boolean;
 }
 
-const CreateBlogPage = () => {
+type Props = {
+    params: { slugBlog: string }
+    searchParams: { [key: string]: string | string[] | undefined };
+};
+
+const CreateBlogPage = ({ params } : Props) => {
 
     const router = useRouter();
     const [isShowEditBlogDetail, setIsShowEditBlogDetail] = useState<boolean>(false);
@@ -184,11 +189,12 @@ const CreateBlogPage = () => {
         }
     }
 
-    useEffect(() => {
-        if (dataBlog.title.length >= 10) {
-        }
+    // useEffect(() => {
+    //     if (dataBlog.title.length >= 10) {
+    //         router.replace('/create/blog/6532/edit');
+    //     }
 
-    }, [dataBlog.title]);
+    // }, [dataBlog.title]);
 
     return (
         <main className="">
@@ -223,13 +229,11 @@ const CreateBlogPage = () => {
                                 onImageUpload={handleUploadImageBlog}
                                 renderHTML={(text) => {
                                     return (
-                                        // <ReactMarkdown
-                                        //     className="my-prose"
-                                        // >
-                                        <MDXComponent>
+                                        <ReactMarkdown
+                                            className="prose"
+                                        >
                                             {text}
-                                        </MDXComponent>
-                                        // </ReactMarkdown>
+                                        </ReactMarkdown>
                                     );
                                 }}
                             />

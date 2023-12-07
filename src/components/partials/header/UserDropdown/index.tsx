@@ -17,7 +17,7 @@ const UserDropdown = () => {
 
     return (
         <>
-            <Menu as="div" className="relative align-middle ">
+            <Menu as="div" className="relative align-middle flex-shrink-0">
                 <Menu.Button className="block">
                     <Image
                         alt="ảnh người dùng"

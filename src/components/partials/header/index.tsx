@@ -1,15 +1,16 @@
 "use client"
 
 import Link from "next/link";
+import Image from "next/image";
 
 import clsx from "clsx";
 
 import SearchMain from "./SearchMain";
+import UserDropdown from "./UserDropdown";
+import { useSession } from "next-auth/react";
+import NavbarCollapse from "./NavbarCollapse";
 import IconPen from "@/components/modules/icons/IconPen";
 import IconBell from "@/components/modules/icons/IconBell";
-import { useSession } from "next-auth/react";
-import UserDropdown from "./UserDropdown";
-import Image from "next/image";
 
 interface HeaderProps {
     isDynamic?: boolean;
@@ -21,7 +22,7 @@ const Header = ({ isDynamic = true } : HeaderProps) => {
     return (
         <header
             className={clsx(
-                "w-full bg-white shadow-sm z-30 top-0 left-0 right-0",
+                "w-full bg-white shadow-sm border-b z-30 top-0 left-0 right-0",
                 { sticky: isDynamic }
             )}
         >
@@ -70,7 +71,7 @@ const Header = ({ isDynamic = true } : HeaderProps) => {
                                         // <div></div>
                                     ) : (
                                         <Link href={`/auth/login`}>
-                                            <span className="py-2 px-3 rounded-md cursor-pointer bg-blue-600 hover:bg-blue-700 text-white">
+                                            <span className="py-2 px-3 rounded-md cursor-pointer bg-indigo-600 hover:bg-indigo-700 text-white">
                                                 Đăng nhập
                                             </span>
                                         </Link>

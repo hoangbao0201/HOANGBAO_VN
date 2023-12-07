@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import { Fragment } from "react";
+import { Fragment, Suspense } from "react";
 
 import siteMetadata from "@/lib/siteMetadata";
 import CardBlog from "@/components/common/CardBlog";
@@ -28,7 +28,18 @@ const HomePage = async () => {
                         <SideLeftHome />
                     </div>
                     <div className="xl:col-span-7 lg:col-span-8 col-span-full pt-3">
-                        {blogs && blogs.length > 0 ? (
+                        <Suspense fallback={<SkeletonCardBlog count={3} />}>
+                            <>
+                                {blogs.map((item, index) => {
+                                    return (
+                                        <Fragment key={index}>
+                                            <CardBlog blog={item} />
+                                        </Fragment>
+                                    );
+                                })}
+                            </>
+                        </Suspense>
+                        {/* {blogs && blogs.length > 0 ? (
                             <>
                                 {blogs.map((item, index) => {
                                     return (
@@ -40,7 +51,7 @@ const HomePage = async () => {
                             </>
                         ) : (
                             <SkeletonCardBlog count={3} />
-                        )}
+                        )} */}
                     </div>
                     <div className="xl:col-span-3 lg:col-span-4 col-span-full pt-3 h-full">
                         <SideRightHome />

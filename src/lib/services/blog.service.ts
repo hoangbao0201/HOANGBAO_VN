@@ -149,6 +149,7 @@ class BlogService {
         try {
             const blogsRes = await fetch(`${API_BASE_URL}/api/blogs${query || ""}`, {
                 method: "GET",
+                cache: "no-store"
             });
 
             const blogs = await blogsRes.json();
@@ -187,6 +188,22 @@ class BlogService {
     async getBlogDetail(slug?: string): Promise<any> {
         try {
             const blogRes = await fetch(`${API_BASE_URL}/api/blogs/${slug || ""}`, {
+                method: "GET",
+            });
+            const blog = await blogRes.json();
+            return blog;
+        } catch (error) {
+            return {
+                success: false,
+                message: "error blog successful",
+                error: error,
+            };
+        }
+    }
+
+    async getBlogEdit(blogId: number): Promise<any> {
+        try {
+            const blogRes = await fetch(`${API_BASE_URL}/api/blogs/edit?blogId=`, {
                 method: "GET",
             });
             const blog = await blogRes.json();

@@ -1,31 +1,55 @@
-import Link from 'next/link';
-import Image from 'next/image';
-import Markdown from 'react-markdown';
+import Link from "next/link";
+import Image from "next/image";
+import Markdown from "react-markdown";
 
 const config = {
     img: ({ node, ...props }: any) => {
-      return (
-        <span className="rounded-md block text-center w-full">
-            <Image src={props.src} alt={props.alt} width={500} height={500} className="mx-auto mb-1"/>
-            <span className='mx-auto'>{props.alt}</span>
-        </span>
-      );
+        return (
+            // <span
+            //     style={{ backgroundImage: "URL('/static/images/wrapper-image-blog.png')" }}
+            //     className="bg-cover block relative rounded-lg w-full md:p-8 min-h-1/2"
+            // >
+                
+            //     <span className="mx-auto">{props.alt}</span>
+            // </span>
+            <Image
+                src={props.src}
+                alt={props.alt}
+                width={800}
+                height={800}
+                className="w-full rounded-md border-2 border-indigo-700/80 shadow-lg overflow-hidden bg-white"
+            />
+        );
     },
-    a: ({ node, href, onClick, children, ...props}: any) => {
-        return <Link className="text-blue-600" href={href} {...props}>{children}</Link>
-    }
+    a: ({ node, href, onClick, children, ...props }: any) => {
+        return (
+            <Link className="text-blue-600 underline" href={href} {...props}>
+                {children}
+            </Link>
+        );
+    },
+    h2: ({ node, children, ...props }: any) => {
+        return (
+            <h2>
+                <Link href={`/`} className="">
+                    {children}
+                </Link>
+                {/* <Link href={`/`}><span className="">#</span></Link> */}
+            </h2>
+        );
+    },
 };
 
 interface MDXComponentProps {
-    children: string
+    children: string;
 }
-const MDXComponent = ({ children } : MDXComponentProps) => {
-
+const MDXComponent = ({ children }: MDXComponentProps) => {
     return (
-        <Markdown components={config} className={"prose max-w-none prose-lg"}>
+        <Markdown components={config} className={"prose max-w-none prose-lg prose-a:no-underline prose-img:m-0 prose-img:border-none"}>
+            {/* prose max-w-none prose-lg prose-a:no-underline */}
             {children}
         </Markdown>
-    )
-}
+    );
+};
 
 export default MDXComponent;
