@@ -60,11 +60,9 @@ const ContentBlogDetail = ({ blog } : ContentBlogDetailProps) => {
                         </div>
                         <h1
                             title={blog.title}
-                            className="font-extrabold text-4xl md:px-8 px-4"
+                            className="font-extrabold text-4xl md:px-8 px-4 relative block"
                         >
-                            <Link href={`/blog/${blog.slug}-${blog.blogId}`}>
-                                {blog.title}
-                            </Link>
+                            {blog.title}
                         </h1>
                         <TagsBlog
                             className="md:px-8 px-4 mt-5 mb-6"

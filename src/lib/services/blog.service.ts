@@ -107,7 +107,37 @@ export interface GetSearchBlogsProps {
         username: string;
     };
 }
+
+export interface GetBlogEditProps {
+    blogId: number;
+    slug: string;
+    title: string;
+    summary: string;
+    content: string;
+    thumbnailUrl: string;
+    createdAt: Date;
+    updatedAt: Date;
+    blogTags: { tags: TagProps }[];
+    author: {
+        role: {
+            roleId: number;
+            roleName: "admin" | "user";
+        };
+        userId: number;
+        name: string;
+        username: string;
+        email: string;
+        rank: number;
+    };
+    blogImages: { urlImage: string }[]
+    _count: {
+        userViews: number;
+        userLikes: number;
+        userSaves: number;
+    };
+}
 class BlogService {
+
     async createBlog({
         data,
         token,
@@ -200,10 +230,14 @@ class BlogService {
         }
     }
 
-    async getBlogEdit(blogId: number): Promise<any> {
+    async getBlogEdit(blogId: string, token: string): Promise<any> {
         try {
-            const blogRes = await fetch(`${API_BASE_URL}/api/blogs/edit?blogId=`, {
+            const blogRes = await fetch(`${API_BASE_URL}/api/blogs/edit?blogId=${blogId}`, {
                 method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`,
+                }
             });
             const blog = await blogRes.json();
             return blog;

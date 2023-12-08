@@ -1,3 +1,4 @@
+
 import Link from "next/link";
 import Image from "next/image";
 
@@ -7,7 +8,11 @@ import convertTime from "@/utils/convertTime";
 import IconShare from "../../modules/icons/IconShare";
 import IconVerify from "../../modules/icons/IconVerify";
 import { GetBlogsProps } from "@/lib/services/blog.service";
-import IconEcllipsis from "@/components/modules/icons/IconEllipsis";
+import dynamic from "next/dynamic";
+
+const ButtonAction = dynamic(() => import('./ButtonAcction'), {
+    ssr: false
+});
 
 
 interface CardBlog {
@@ -56,9 +61,7 @@ const CardBlog = ({blog} : CardBlog) => {
                         </Link>
                     </div>
                     <div className="ml-auto">
-                        <span className="cursor-pointer p-1 rounded-full hover:bg-gray-200 block">
-                            <IconEcllipsis />
-                        </span>
+                        <ButtonAction blogId={blog.blogId} authorId={blog.author.userId}/>
                     </div>
                 </div>
                 <div className="px-4 my-3">

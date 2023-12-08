@@ -70,6 +70,26 @@ body {
 //     }
 // }
 
+
+// content-tag-h
+.content-tag-h {
+    text-shadow: rgb(255, 255, 255) -2px 2px 0px, rgb(255, 255, 255) -4px 3px 0px;
+    
+    &::before {
+        content: "";
+        position: absolute;
+        left: 0px;
+        top: 0px;
+        bottom: 0px;
+        width: 45px;
+        margin-left: 18px;
+        background: linear-gradient(45deg, rgb(0, 88, 255), rgb(223, 114, 161), rgb(247, 255, 187));
+        z-index: 0;
+        // transition: width 0.4s cubic-bezier(0.23, 1, 0.32, 1) 0s;
+        border-radius: 3px;
+    }
+}
+
 /* TAGS */
 .tag {
     border: 1px solid #ccc;

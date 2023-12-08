@@ -1,25 +1,40 @@
+"use client"
+
+import { ReactNode, useRef, useState } from 'react';
+import { useClickOutSide } from '@/hook/useClickOutSide';
+import clsx from 'clsx';
 
 
-const DropdownButton = () => {
+interface DropdownButtonProps {
+    children: ReactNode
+    content: ReactNode
+    className?: string
+    placement?: string
+}
+const DropdownButton = ({ children, content, placement, className } : DropdownButtonProps) => {
+
+    const optionRef = useRef<HTMLDivElement>(null)
+    const [isOptions, setIsOptions] = useState(false);
+
+    const handleHiddenOptions = () => {
+        setIsOptions(false);
+    }
+
+    useClickOutSide(optionRef, handleHiddenOptions);
 
     return (
-        <>
-            {/* <Popover className="relative">
-                <Popover.Button>Solutions</Popover.Button>
-
-                <Popover.Panel className="absolute z-10">
-                    <div className="grid grid-cols-2">
-                    <a href="/analytics">Analytics</a>
-                    <a href="/engagement">Engagement</a>
-                    <a href="/security">Security</a>
-                    <a href="/integrations">Integrations</a>
+        <div ref={optionRef} className='relative'>
+            <button onClick={() => setIsOptions(value => !value)}>
+                {children}
+            </button>
+            {
+                isOptions && (
+                    <div className={`absolute z-10 ${className}`}>
+                        {content}
                     </div>
-
-                    <img src="/solutions.jpg" alt="" />
-                </Popover.Panel>
-            </Popover> */}
-        
-        </>
+                )
+            }
+        </div>
     )
 }
 

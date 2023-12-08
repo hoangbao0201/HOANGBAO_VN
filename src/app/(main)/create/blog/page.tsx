@@ -172,7 +172,8 @@ const CreateBlogPage = () => {
             formData.append("image", file);
             const imageUrl = await imageService.createImageBlog({
                 dataImage: formData,
-                token: session.backendTokens.accessToken
+                token: session.backendTokens.accessToken,
+                query: "?blogId="+11
             });
             console.log(imageUrl);
             

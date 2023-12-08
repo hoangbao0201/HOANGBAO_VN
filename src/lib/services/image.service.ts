@@ -7,9 +7,11 @@ class ImageService {
     async createImageBlog({
         dataImage,
         token,
+        query = ""
     }: {
-        dataImage: FormData;
-        token: string;
+        dataImage: FormData,
+        token: string,
+        query?: string
     }): Promise<any> {
         try {
 
@@ -22,7 +24,7 @@ class ImageService {
             //     body: formData,
             // });
 
-            const imageRes = await axios.post(`${API_BASE_URL}/api/images/cloudinary/upload/blog`, dataImage, {
+            const imageRes = await axios.post(`${API_BASE_URL}/api/images/cloudinary/upload/blog${query}`, dataImage, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }

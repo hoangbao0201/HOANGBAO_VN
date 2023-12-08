@@ -1,25 +1,19 @@
-
 "use client"
 
-import { ChangeEvent, Suspense, useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
+
+import { useSession } from "next-auth/react";
 
 import ReactMarkdown from "react-markdown";
-import { useSession } from "next-auth/react";
+import Modal from "@/components/common/Modal";
 import Editor from "react-markdown-editor-lite";
 import "react-markdown-editor-lite/lib/index.css";
-import CreatableSelect from "react-select/creatable";
-import { ActionMeta, MultiValue } from "react-select";
-
-import Modal from "@/components/common/Modal";
-import { API_BASE_URL } from "@/lib/constants";
 import { textToSlug } from "@/utils/testToSlug";
-import blogService from "@/lib/services/blog.service";
-import IconAlertCircle from "@/components/modules/icons/IconAlertCircle";
+import { ActionMeta, MultiValue } from "react-select";
+import CreatableSelect from "react-select/creatable";
+import blogService, { GetBlogEditProps } from "@/lib/services/blog.service";
 import imageService from "@/lib/services/image.service";
-import { Session } from "next-auth";
-import { useRouter } from "next/navigation";
-
-
+import IconAlertCircle from "../../icons/IconAlertCircle";
 
 interface Option {
     label: string;
@@ -31,20 +25,17 @@ interface StateDataBlogProps {
     content: string;
     published: boolean;
 }
+interface FormEditBlogProps {
+    blog: GetBlogEditProps
+}
+const FormEditBlog = ({ blog } : FormEditBlogProps) => {
 
-type Props = {
-    params: { slugBlog: string }
-    searchParams: { [key: string]: string | string[] | undefined };
-};
-
-const CreateBlogPage = ({ params } : Props) => {
-
-    const router = useRouter();
-    const [isShowEditBlogDetail, setIsShowEditBlogDetail] = useState<boolean>(false);
+    const [isShowEditBlogDetail, setIsShowEditBlogDetail] =
+        useState<boolean>(false);
     const [dataBlog, setDataBlog] = useState<StateDataBlogProps>({
-        title: "",
-        summary: "",
-        content: "",
+        title: blog.title,
+        summary: blog.summary,
+        content: blog.content,
         published: true,
     });
     const [selectedTags, setSelectedTags] = useState<MultiValue<Option>>([]);
@@ -52,19 +43,21 @@ const CreateBlogPage = ({ params } : Props) => {
         MultiValue<Option>
     >([{ label: "ReactJS", value: "reactjs" }]);
     const [fileThumbnail, setFileThumbnail] = useState<{
-        dataImage: File | null
-        urlImage: string
+        dataImage: File | null;
+        urlImage: string;
     }>({
         dataImage: null,
-        urlImage: ""
-    }); 
+        urlImage: "",
+    });
 
     // SESSION
     const { data: session, status } = useSession();
 
-    // Onchange Thumbnail Blog 
-    const eventOnchangeThumbnailBlog = async (e: ChangeEvent<HTMLInputElement>) => {
-        if(e.target.files == null ) {
+    // Onchange Thumbnail Blog
+    const eventOnchangeThumbnailBlog = async (
+        e: ChangeEvent<HTMLInputElement>
+    ) => {
+        if (e.target.files == null) {
             return;
         }
         const dataImg = e.target.files[0];
@@ -72,9 +65,9 @@ const CreateBlogPage = ({ params } : Props) => {
         setFileThumbnail({
             ...fileThumbnail,
             dataImage: dataImg,
-            urlImage: URL.createObjectURL(dataImg)
+            urlImage: URL.createObjectURL(dataImg),
         });
-    }
+    };
 
     // Onchange Data Blog
     const eventOnchangeDataBlog = (e: ChangeEvent<HTMLInputElement>) => {
@@ -90,8 +83,6 @@ const CreateBlogPage = ({ params } : Props) => {
         actionMeta: ActionMeta<Option>
     ) => {
         setSelectedTags(selectedOptions);
-        console.log(selectedOptions)
-        console.log(actionMeta)
     };
 
     // Onchange Editor
@@ -110,28 +101,29 @@ const CreateBlogPage = ({ params } : Props) => {
     };
 
     // Create Blog
-    const handleCreateBlog = async () => {
-
+    const handleSaveEditBlog = async () => {
         // console.log(selectedTags)
 
-        if(!session || status !== "authenticated") {
+        if (!session || status !== "authenticated") {
             return;
         }
 
-        const convertTags : { name: string, slug: string }[] = selectedTags.map(item => {
-            return {
-                name: item.label,
-                slug: textToSlug(item.label) || ""
+        const convertTags: { name: string; slug: string }[] = selectedTags.map(
+            (item) => {
+                return {
+                    name: item.label,
+                    slug: textToSlug(item.label) || "",
+                };
             }
-        });
-        
+        );
+
         try {
             const createBlogRes = await blogService.createBlog({
                 data: {
                     ...dataBlog,
-                    blogTags: convertTags
+                    blogTags: convertTags,
                 },
-                token: session.backendTokens.accessToken
+                token: session.backendTokens.accessToken,
             });
             console.log(createBlogRes);
         } catch (error) {}
@@ -139,11 +131,11 @@ const CreateBlogPage = ({ params } : Props) => {
 
     // Hanlde Upload Thumnail Blog
     const handleUploadThumbnailBlog = async () => {
-        if(!session || status !== "authenticated") {
+        if (!session || status !== "authenticated") {
             return;
         }
         try {
-            if(!fileThumbnail.dataImage) {
+            if (!fileThumbnail.dataImage) {
                 return;
             }
             const formData = new FormData();
@@ -158,43 +150,60 @@ const CreateBlogPage = ({ params } : Props) => {
             // });
             const imageRes = await imageService.createImageBlog({
                 dataImage: formData,
-                token: session?.backendTokens.accessToken
-            })
-            console.log(imageRes)
-        } catch (error) {
-            
-        }
-    }
+                token: session?.backendTokens.accessToken,
+            });
+            console.log(imageRes);
+        } catch (error) {}
+    };
 
     // Hanlde Upload Image Blog
     const handleUploadImageBlog = async (file: File) => {
-        if(!session || status !=="authenticated") {{
-            return;
-        }};
+        if (!session || status !== "authenticated") {
+            {
+                return;
+            }
+        }
 
         try {
             const formData = new FormData();
             formData.append("image", file);
             const imageUrl = await imageService.createImageBlog({
                 dataImage: formData,
-                token: session.backendTokens.accessToken
+                token: session.backendTokens.accessToken,
             });
             console.log(imageUrl);
-            
-            if(imageUrl?.success) {
+
+            if (imageUrl?.success) {
                 return imageUrl.image.url;
             }
-        } catch (error) {
+        } catch (error) {}
+    };
+
+    // const eventGetEditBlog = async () => {
+    //     if(!session || status !== "authenticated") {
+    //         return;
+    //     }
+    //     try {
+    //         const blogRes = await blogService.getBlogEdit(slugBlog, session?.backendTokens.accessToken);
+    //         if(blogRes.success) {
+    //             const { blogId, title, content, summary, blogImages } = blogRes.blog;
+
+    //             setDataBlog({
+    //                 ...dataBlog,
+    //                 title: title,
+    //                 summary: summary,
+    //                 content: content,
+    //                 published: true,
+    //             })
+    //         }
+    //     } catch (error) {
             
-        }
-    }
+    //     }
+    // }
 
     // useEffect(() => {
-    //     if (dataBlog.title.length >= 10) {
-    //         router.replace('/create/blog/6532/edit');
-    //     }
-
-    // }, [dataBlog.title]);
+    //     eventGetEditBlog()
+    // }, [status]);
 
     return (
         <main className="">
@@ -220,27 +229,23 @@ const CreateBlogPage = ({ params } : Props) => {
                     </button>
                 </div>
                 <div>
-                    {
-                        session ? (
-                            <Editor
-                                value={dataBlog.content}
-                                className="w-full min-h-screen border-none"
-                                onChange={eventOnchangeEditorChange}
-                                onImageUpload={handleUploadImageBlog}
-                                renderHTML={(text) => {
-                                    return (
-                                        <ReactMarkdown
-                                            className="prose"
-                                        >
-                                            {text}
-                                        </ReactMarkdown>
-                                    );
-                                }}
-                            />
-                        ) : (
-                            <div className="w-full min-h-screen border-none"></div>
-                        )
-                    }               
+                    {session ? (
+                        <Editor
+                            value={dataBlog.content}
+                            className="w-full min-h-screen border-none"
+                            onChange={eventOnchangeEditorChange}
+                            onImageUpload={handleUploadImageBlog}
+                            renderHTML={(text) => {
+                                return (
+                                    <ReactMarkdown className="prose">
+                                        {text}
+                                    </ReactMarkdown>
+                                );
+                            }}
+                        />
+                    ) : (
+                        <div className="w-full min-h-screen border-none"></div>
+                    )}
                 </div>
             </div>
 
@@ -253,17 +258,29 @@ const CreateBlogPage = ({ params } : Props) => {
                     <div className="font-semibold text-lg mb-4">Xem trước</div>
                     <div className="h-full md:flex md:space-x-8">
                         <div className="md:w-2/5">
-
                             <div className="mb-6">
-                                <label htmlFor="inputThumbnail" className="cursor-pointer group image-change">
+                                <label
+                                    htmlFor="inputThumbnail"
+                                    className="cursor-pointer group image-change"
+                                >
                                     <div
-                                        style={{ backgroundImage: `URL('${fileThumbnail.urlImage}')` }}
-                                        className={`${fileThumbnail.dataImage && "exist-file"} transition-opacity duration-500 relative bg-center bg-cover border text-center w-full px-6 py-5 bg-gray-200 h-40 block rounded-md`}
+                                        style={{
+                                            backgroundImage: `URL('${fileThumbnail.urlImage}')`,
+                                        }}
+                                        className={`${
+                                            fileThumbnail.dataImage &&
+                                            "exist-file"
+                                        } transition-opacity duration-500 relative bg-center bg-cover border text-center w-full px-6 py-5 bg-gray-200 h-40 block rounded-md`}
                                     >
                                         <p className={`text-gray-900 mb-3`}>
-                                            Thêm một ảnh đại diện hấp dẫn sẽ giúp bài viết của bạn cuốn hút hơn với độc giả.
+                                            Thêm một ảnh đại diện hấp dẫn sẽ
+                                            giúp bài viết của bạn cuốn hút hơn
+                                            với độc giả.
                                         </p>
-                                        <p>Kéo thả ảnh vào đây, hoặc bấm để chọn ảnh</p>
+                                        <p>
+                                            Kéo thả ảnh vào đây, hoặc bấm để
+                                            chọn ảnh
+                                        </p>
                                     </div>
                                 </label>
                             </div>
@@ -296,17 +313,20 @@ const CreateBlogPage = ({ params } : Props) => {
                         </div>
                         <div className="md:w-3/5 flex flex-col justify-between">
                             <div className="">
-
                                 <div className="flex items-center py-1">
-                                    <IconAlertCircle className="w-4 h-4 stroke-blue-500 block"/>
-                                    <span className="ml-2 text-sm text-gray-700">Không quá 3 thẻ, không quá 15 kí tự</span>
+                                    <IconAlertCircle className="w-4 h-4 stroke-blue-500 block" />
+                                    <span className="ml-2 text-sm text-gray-700">
+                                        Không quá 3 thẻ, không quá 15 kí tự
+                                    </span>
                                 </div>
                                 <CreatableSelect
                                     isMulti
                                     // getOptionLabel={option => option.label}
                                     // getOptionValue={option => option.name}
                                     // formatOptionLabel={option => option.name ? option.label : `${option.label} Whatever`}
-                                    formatCreateLabel={(inputValue) => `Tạo tag ${inputValue}`}
+                                    formatCreateLabel={(inputValue) =>
+                                        `Tạo tag ${inputValue}`
+                                    }
                                     isValidNewOption={(value) =>
                                         value.length > 1 && value.length < 15
                                     }
@@ -324,10 +344,10 @@ const CreateBlogPage = ({ params } : Props) => {
                                             padding: "3px 5px",
                                         }),
                                     }}
-                                    // defaultValue={selectedTags}
+                                    defaultValue={selectedTags}
                                     onChange={eventOnchangeTagsBlog}
                                 />
-        
+
                                 <div className="flex items-center mt-4">
                                     <input
                                         id="idCheckPublished"
@@ -341,24 +361,31 @@ const CreateBlogPage = ({ params } : Props) => {
                                         }
                                         checked={dataBlog.published}
                                     />
-                                    <label htmlFor="idCheckPublished" className="ml-2">
+                                    <label
+                                        htmlFor="idCheckPublished"
+                                        className="ml-2"
+                                    >
                                         Bài viết công khai
                                     </label>
                                 </div>
                             </div>
                             <div className="mt-10 py-5 flex bottom-0 justify-end space-x-2">
                                 <button
-                                    onClick={handleCreateBlog}
+                                    onClick={handleSaveEditBlog}
                                     className="border rounded-md py-2 px-3 bg-green-600 hover:bg-green-700 text-white"
                                 >
                                     Xuất bản ngay
                                 </button>
+
                                 <button
-                                    onClick={() => setIsShowEditBlogDetail(false)}
+                                    onClick={() =>
+                                        setIsShowEditBlogDetail(false)
+                                    }
                                     className="border rounded-md py-2 px-3 hover:bg-slate-100 text-black"
                                 >
                                     Thoát
                                 </button>
+                                
                             </div>
                         </div>
                     </div>
@@ -368,7 +395,4 @@ const CreateBlogPage = ({ params } : Props) => {
     );
 };
 
-export default CreateBlogPage;
-
-
-
+export default FormEditBlog;

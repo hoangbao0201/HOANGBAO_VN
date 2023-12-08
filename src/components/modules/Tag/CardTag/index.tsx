@@ -8,13 +8,13 @@ const CardTag = ({ tag } : CardTagProps) => {
 
     return (
         <div className="px-2 mb-4">
-            <div className="h-48 bg-white rounded-md shadow-sm px-3 py-3 flex flex-col outline-2 outline-blue-500 hover:outline-dashed">
+            <div className="h-48 bg-white rounded-md shadow-sm px-3 py-3 flex flex-col outline-2 outline-indigo-500 hover:outline-dashed">
                 <div className="flex items-end justify-between line-clamp-1 mb-2">
                     <Link
                         className=""
                         href={`/tags/${tag.slug}`}
                     >
-                        <h2 className="font-semibold text-lg hover:underline">#{tag.name}</h2>
+                        <h2 className="font-semibold text-lg hover:underline hover:text-indigo-700">#{tag.name}</h2>
                     </Link>
                     <span className="text-sm text-gray-500">{tag._count.blogTags} bài viết</span>
                 </div>
