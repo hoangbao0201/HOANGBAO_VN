@@ -14,7 +14,7 @@ const ListBlogUser = ({ slug }: ListBlogUserProps) => {
 
     const handleGetListBlogUser = async () => {
         try {
-            const blogsRes = await blogService.findAll(`?byu=${slug}`);
+            const blogsRes = await blogService.getAllBlogs({ query: `?byu=${slug}` });
 
             if (blogsRes.success) {
                 setListBlog(blogsRes.blogs);

@@ -17,7 +17,7 @@ const config = {
                 alt={props.alt}
                 width={800}
                 height={800}
-                className="w-full rounded-md overflow-hidden bg-white"
+                className="w-full overflow-hidden bg-white"
             />
         );
     },

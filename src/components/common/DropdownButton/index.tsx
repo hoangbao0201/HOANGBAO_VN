@@ -29,7 +29,7 @@ const DropdownButton = ({ children, content, placement, className } : DropdownBu
             </button>
             {
                 isOptions && (
-                    <div className={`absolute z-10 ${className}`}>
+                    <div className={`absolute z-10 ${className} dropdown-button-bf`}>
                         {content}
                     </div>
                 )

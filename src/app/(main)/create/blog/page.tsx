@@ -18,6 +18,7 @@ import imageService from "@/lib/services/image.service";
 import { Session } from "next-auth";
 import { useRouter } from "next/navigation";
 import MDXComponent from "@/components/common/MDXContent";
+import { ShowToastify } from "@/components/common/ShowToastify";
 
 
 
@@ -185,6 +186,19 @@ const CreateBlogPage = () => {
         }
     }
 
+    const handleShowToastify = () => {
+        ShowToastify({
+            data: () => <div className='text-center'>Tạo thành công</div>,
+            className: "text-base",
+            toastOptions: {
+                theme: "dark",
+                delay: 3000,
+                position: "top-center",
+                hideProgressBar: true,
+            }
+        });
+    }
+
     useEffect(() => {
         if (dataBlog.title.length >= 10) {
         }
@@ -199,6 +213,7 @@ const CreateBlogPage = () => {
                 }}
                 className="py-5 px-4 bg-white"
             >
+                <button onClick={handleShowToastify}>Show</button>
                 <div className="flex">
                     <input
                         name="title"

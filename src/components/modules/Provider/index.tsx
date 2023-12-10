@@ -4,6 +4,8 @@ import React from "react";
 import { SessionProvider } from "next-auth/react";
 
 import { AppProgressBar as ProgressBar } from 'next-nprogress-bar';
+import { Provider } from "react-redux";
+import store from "@/redux/store";
 
 
 export default function ProviderLayout({
@@ -17,7 +19,7 @@ export default function ProviderLayout({
                 options={{ showSpinner: false }}
             />
             <SessionProvider>
-                {children}
+                <Provider store={store}>{children}</Provider>
             </SessionProvider >
         </>
     );

@@ -30,7 +30,7 @@ export async function generateMetadata(
 
 const TagDetailPage = async ({ params } : Props) => {
 
-    const { success, blogs } : { success: boolean, blogs: GetBlogsProps[] } = await blogService.findAll(`?tag=${params.slugTag}`);
+    const { success, blogs } : { success: boolean, blogs: GetBlogsProps[] } = await blogService.getAllBlogs({ query: `?tag=${params.slugTag}` });
 
     return (
         <div className="max-w-7xl w-full min-h-screen mx-auto mb-4">

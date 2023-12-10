@@ -25,7 +25,7 @@ const EditBlogPage = async ({ params }: Props) => {
     }
 
     return (
-        <FormEditBlog blog={blog} />
+        <FormEditBlog blog={blog}/>
     );
 };
 

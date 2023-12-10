@@ -29,7 +29,6 @@ const SideBarNavigationMainData = [
 
 
 const SideLeftHome = () => {
-
     return (
         <aside className="sticky top-[72px]">
             <ul className="">

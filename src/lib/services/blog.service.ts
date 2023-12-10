@@ -63,7 +63,7 @@ export interface GetBlogDetailProps {
         email: string;
         rank: number;
     };
-    blogImages: { urlImage: string }[]
+    blogImages: { urlImage: string }[];
     _count: {
         userViews: number;
         userLikes: number;
@@ -107,7 +107,6 @@ export interface GetSearchBlogsProps {
         username: string;
     };
 }
-
 export interface GetBlogEditProps {
     blogId: number;
     slug: string;
@@ -129,7 +128,7 @@ export interface GetBlogEditProps {
         email: string;
         rank: number;
     };
-    blogImages: { urlImage: string }[]
+    blogImages: { blogImageId: number; urlImage: string }[];
     _count: {
         userViews: number;
         userLikes: number;
@@ -137,7 +136,6 @@ export interface GetBlogEditProps {
     };
 }
 class BlogService {
-
     async createBlog({
         data,
         token,
@@ -175,11 +173,15 @@ class BlogService {
         }
     }
 
-    async findAll(query?: string): Promise<any> {
+    async getAllBlogs({query, cache}: { query?: string, cache?: RequestCache }): Promise<any> {
         try {
-            const blogsRes = await fetch(`${API_BASE_URL}/api/blogs${query || ""}`, {
-                method: "GET",
-            });
+            const blogsRes = await fetch(
+                `${API_BASE_URL}/api/blogs${query || ""}`,
+                {
+                    method: "GET",
+                    cache: cache || "default"
+                }
+            );
 
             const blogs = await blogsRes.json();
             return blogs;
@@ -216,9 +218,14 @@ class BlogService {
 
     async getBlogDetail(slug?: string): Promise<any> {
         try {
-            const blogRes = await fetch(`${API_BASE_URL}/api/blogs/${slug || ""}`, {
-                method: "GET",
-            });
+            const blogRes = await fetch(
+                `${API_BASE_URL}/api/blogs/${slug || ""}`,
+                {
+                    method: "GET",
+                    // next: { revalidate: 3*60*60 }
+                    cache: "no-store",
+                }
+            );
             const blog = await blogRes.json();
             return blog;
         } catch (error) {
@@ -232,13 +239,17 @@ class BlogService {
 
     async getBlogEdit(blogId: string, token: string): Promise<any> {
         try {
-            const blogRes = await fetch(`${API_BASE_URL}/api/blogs/edit?blogId=${blogId}`, {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${token}`,
+            const blogRes = await fetch(
+                `${API_BASE_URL}/api/blogs/edit?blogId=${blogId}`,
+                {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${token}`,
+                    },
+                    cache: "no-store",
                 }
-            });
+            );
             const blog = await blogRes.json();
             return blog;
         } catch (error) {
@@ -250,12 +261,35 @@ class BlogService {
         }
     }
 
-    async test(): Promise<any> {
+    async updateBlog({
+        data,
+        token,
+    }: {
+        data: PostCreateBlogProps & { blogId: string };
+        token: string;
+    }): Promise<any> {
         try {
-            return {
-                success: true,
-                message: "successful",
-            };
+            const { blogId, title, content, published, summary } = data;
+
+            const blogRes = await fetch(
+                `${API_BASE_URL}/api/blogs/edit?blogId=${blogId}`,
+                {
+                    method: "PATCH",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${token}`,
+                    },
+                    body: JSON.stringify({
+                        title: title,
+                        content: content,
+                        published: published,
+                        thumbnailUrl: "",
+                        summary: summary,
+                    }),
+                }
+            );
+            const blog = await blogRes.json();
+            return blog;
         } catch (error) {
             return {
                 success: false,

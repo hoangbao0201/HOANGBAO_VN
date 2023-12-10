@@ -14,7 +14,7 @@ const ButtonAction = ({ blogId, authorId } : ButtonActionProps) => {
 
     return (
         <DropdownButton
-            className="top-full right-0 shadow-lg border rounded-md overflow-hidden bg-white"
+            className="top-full right-0 shadow-lg border rounded-md bg-white"
             content={
                 <div className="py-2 px-2 min-w-[300px]">
                     {

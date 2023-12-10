@@ -25,7 +25,7 @@ const SearchMain = () => {
 
     const eventSearch = async (text: string) => {
         try {
-            const blogsRes = await blogService.findAll(`?search=${text}`);
+            const blogsRes = await blogService.getAllBlogs({ query: `?search=${text}` });
 
             if (blogsRes?.success) {
                 setResultSearch(blogsRes.blogs);

@@ -17,8 +17,8 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 const HomePage = async () => {
-    const { success, blogs }: { success: boolean; blogs: GetBlogsProps[] } =
-        await blogService.findAll();
+    const { success, blogs = [] }: { success: boolean; blogs: GetBlogsProps[] } =
+        await blogService.getAllBlogs({ cache: "no-store" });
 
     return (
         <>
@@ -30,7 +30,7 @@ const HomePage = async () => {
                     <div className="xl:col-span-7 lg:col-span-8 col-span-full pt-3">
                         <Suspense fallback={<SkeletonCardBlog count={3} />}>
                             <>
-                                {blogs.map((item, index) => {
+                                {blogs.length > 0 && blogs.map((item, index) => {
                                     return (
                                         <Fragment key={index}>
                                             <CardBlog blog={item} />

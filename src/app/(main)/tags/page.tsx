@@ -25,6 +25,7 @@ const TagsPage = async ({ params } : Props) => {
         <div className="max-w-7xl w-full min-h-screen mx-auto mb-4">
             <div className="px-3 my-3">
                 <div className="-mx-3">
+
                     <div className="px-3 mb-3">
                         <h1 className="font-extrabold text-2xl">Các chủ đề</h1>
                     </div>

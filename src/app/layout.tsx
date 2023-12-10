@@ -1,7 +1,10 @@
-import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import "./globals.scss";
+import type { Metadata } from "next";
 import ProviderLayout from "@/components/modules/Provider";
+
+import { ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
+
 
 export const metadata: Metadata = {
     title: "Create Next App",
@@ -14,9 +17,14 @@ export default function RootLayout({
     children: React.ReactNode;
 }) {
     return (
-        <html lang="en">
+        <html lang="vi">
             <body>
-                <ProviderLayout>{children}</ProviderLayout>
+                <ProviderLayout>
+                    {children}
+                </ProviderLayout>
+                <ToastContainer
+                    limit={1}
+                />
             </body>
         </html>
     );
