@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import Image from "next/image";
 
@@ -5,13 +7,28 @@ import convertTime from "@/utils/convertTime";
 import TagsBlog from "@/components/common/TagsBlog";
 import AvatarRank from "@/components/common/AvatarRank";
 import MDXComponent from "@/components/common/MDXContent";
-import { GetBlogDetailProps } from "@/lib/services/blog.service";
-
+import blogService, { GetBlogDetailProps } from "@/lib/services/blog.service";
+import { useEffect } from "react";
+import { useSession } from "next-auth/react";
 
 interface ContentBlogDetailProps {
-    blog: GetBlogDetailProps
+    blog: GetBlogDetailProps;
 }
-const ContentBlogDetail = ({ blog } : ContentBlogDetailProps) => {
+const ContentBlogDetail = ({ blog }: ContentBlogDetailProps) => {
+    const { data: session, status } = useSession();
+    useEffect(() => {
+        if (status !== "loading") {
+            const delay = 10000;
+            const timeoutId = setTimeout(() => {
+                blogService.increaseView({
+                    blogId: blog.blogId,
+                    token: session?.backendTokens.accessToken || undefined,
+                });
+            }, delay);
+
+            return () => clearTimeout(timeoutId);
+        }
+    }, [status]);
 
     return (
         <div className="md:px-3">
@@ -35,14 +52,18 @@ const ContentBlogDetail = ({ blog } : ContentBlogDetailProps) => {
                                         width={60}
                                         height={60}
                                         alt="ảnh người dùng"
-                                        src={"/static/images/default/avatar_user_sm.jpg"}
+                                        src={
+                                            "/static/images/default/avatar_user_sm.jpg"
+                                        }
                                         className="w-12 h-12 block object-cover rounded-full flex-shrink-0"
                                     />
                                 </AvatarRank>
                             </Link>
                             <div className="ml-3">
                                 <div className="flex items-center mb-1">
-                                    <Link href={`/user/${blog.author.username}`}>
+                                    <Link
+                                        href={`/user/${blog.author.username}`}
+                                    >
                                         <div className="hover:underline text-lg font-medium">
                                             {blog.author.name}
                                         </div>

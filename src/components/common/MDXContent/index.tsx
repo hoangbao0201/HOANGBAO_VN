@@ -9,7 +9,7 @@ const config = {
             //     style={{ backgroundImage: "URL('/static/images/wrapper-image-blog.png')" }}
             //     className="bg-cover block relative rounded-lg w-full md:p-8 min-h-1/2"
             // >
-                
+
             //     <span className="mx-auto">{props.alt}</span>
             // </span>
             <Image
@@ -45,7 +45,12 @@ interface MDXComponentProps {
 }
 const MDXComponent = ({ children }: MDXComponentProps) => {
     return (
-        <Markdown components={config} className={"prose max-w-none prose-lg prose-a:no-underline prose-img:m-0 prose-img:border-none"}>
+        <Markdown
+            components={config}
+            className={
+                "prose text-gray-800 max-w-none prose-lg prose-a:no-underline prose-img:m-0 prose-img:border-none"
+            }
+        >
             {/* prose max-w-none prose-lg prose-a:no-underline */}
             {children}
         </Markdown>

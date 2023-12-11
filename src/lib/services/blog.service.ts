@@ -298,6 +298,35 @@ class BlogService {
             };
         }
     }
+
+    async increaseView({
+        blogId,
+        token,
+    }: {
+        blogId: number;
+        token?: string;
+    }): Promise<any> {
+        try {
+            const blogRes = await fetch(
+                `${API_BASE_URL}/api/blogs/view/${blogId}`,
+                {
+                    method: "PATCH",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: token ? `Bearer ${token}` : "",
+                    },
+                }
+            );
+            const blog = await blogRes.json();
+            return blog;
+        } catch (error) {
+            return {
+                success: false,
+                message: "error blog successful",
+                error: error,
+            };
+        }
+    }
 }
 
 const blogService = new BlogService();
