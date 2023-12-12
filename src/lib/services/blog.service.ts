@@ -173,13 +173,14 @@ class BlogService {
         }
     }
 
-    async getAllBlogs({query, cache}: { query?: string, cache?: RequestCache }): Promise<any> {
+    async getAllBlogs({query, cache, next}: { query?: string, cache?: RequestCache, next?: NextFetchRequestConfig }): Promise<any> {
         try {
             const blogsRes = await fetch(
                 `${API_BASE_URL}/api/blogs${query || ""}`,
                 {
                     method: "GET",
-                    cache: cache || "default"
+                    cache: cache || "default",
+                    next: next
                 }
             );
 
@@ -216,10 +217,10 @@ class BlogService {
         }
     }
 
-    async getBlogDetail(slug?: string): Promise<any> {
+    async getBlogDetail({query, cache, next}: { query?: string, cache?: RequestCache, next?: NextFetchRequestConfig }): Promise<any> {
         try {
             const blogRes = await fetch(
-                `${API_BASE_URL}/api/blogs/${slug || ""}`,
+                `${API_BASE_URL}/api/blogs/${query || ""}`,
                 {
                     method: "GET",
                     // next: { revalidate: 3*60*60 }

@@ -72,11 +72,13 @@ const ContentBlogDetail = ({ blog }: ContentBlogDetailProps) => {
                                         Cấp {blog.author.rank || 1}
                                     </span>
                                 </div>
-                                <Link href={`/`}>
-                                    <p className="text-sm hover:underline">
-                                        {convertTime(blog.createdAt)}
-                                    </p>
-                                </Link>
+                                <div>
+                                    <Link href={`/`}>
+                                        <p className="text-sm hover:underline">
+                                            {convertTime(blog.createdAt)}
+                                        </p>
+                                    </Link>
+                                </div>
                             </div>
                         </div>
                         <h1

@@ -18,7 +18,7 @@ export async function generateMetadata(): Promise<Metadata> {
 
 const HomePage = async () => {
     const { success, blogs = [] }: { success: boolean; blogs: GetBlogsProps[] } =
-        await blogService.getAllBlogs({ cache: "no-store" });
+        await blogService.getAllBlogs({ next: { revalidate: 60*2 }});
 
     return (
         <>

@@ -16,7 +16,7 @@ export async function generateMetadata(
     { params }: Props,
     parent: ResolvingMetadata
 ): Promise<Metadata> {
-    const { success, blog } : { success: boolean, blog: GetBlogDetailProps } = await blogService.getBlogDetail(params.slugBlog);
+    const { success, blog } : { success: boolean, blog: GetBlogDetailProps } = await blogService.getBlogDetail({ query: params.slugBlog, next: { revalidate: 3*60*60 } });
 
     const previousImages = (await parent).openGraph?.images || [];
 
@@ -32,7 +32,7 @@ export async function generateMetadata(
 }
 
 const BlogDetailPage = async ({ params }: Props) => {
-    const { success, blog } = await blogService.getBlogDetail(params.slugBlog);
+    const { success, blog } = await blogService.getBlogDetail({ query: params.slugBlog, next: { revalidate: 3*60*60 } });
 
     return (
         <>
