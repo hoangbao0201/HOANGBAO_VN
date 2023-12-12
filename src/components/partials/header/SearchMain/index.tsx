@@ -25,7 +25,7 @@ const SearchMain = () => {
 
     const eventSearch = async (text: string) => {
         try {
-            const blogsRes = await blogService.getAllBlogs({ query: `?search=${text}` });
+            const blogsRes = await blogService.searchBlogs({ query: `?q=${text}&take=20` });
 
             if (blogsRes?.success) {
                 setResultSearch(blogsRes.blogs);
@@ -66,67 +66,67 @@ const SearchMain = () => {
                 size="large"
             >
                 <div className="font-semibold text-lg mb-4">Tìm kiếm</div>
-                <div className="border-b flex items-center">
-                    <i>
-                        <IconSearch className="" />
-                    </i>
-                    <input
-                        value={valueSearch}
-                        onChange={eventOnchangeValueSearch}
-                        className="w-full outline-none border-none py-2 px-2"
-                        placeholder="Tên bài viết..."
-                    />
-
-                    {valueSearchDebounce !== "" &&
-                        (isLoadingSearch ? (
-                            <span className="loading-search"></span>
-                        ) : (
-                            <i
-                                onClick={() => {
-                                    setValueSearch("");
-                                    setResultSearch([]);
-                                }}
-                                className="p-1 hover:bg-gray-200 rounded-full cursor-pointer"
-                            >
-                                <IconClose className="w-5 h-5 block" />
-                            </i>
-                        ))}
-                </div>
-                <div style={{ height: "2px" }} className={clsx(
-                    "loading-bar",
-                        {
-                            "before:content-none": !isLoadingSearch
-                        }
-                    )}>
-                </div>
-                <div className="overflow-y-auto py-2">
-                    <ul className="py-2 px-2">
-                        {resultSearch.map((blog) => {
-                            return (
-                                <li
-                                    key={blog.blogId}
-                                    className="rounded-md mb-2 bg-gray-50 group hover:bg-blue-500 hover:text-white"
+                <div>
+                    <div className="border-b flex items-center">
+                        <i>
+                            <IconSearch className="" />
+                        </i>
+                        <input
+                            value={valueSearch}
+                            onChange={eventOnchangeValueSearch}
+                            className="w-full outline-none border-none py-2 px-2"
+                            placeholder="Tên bài viết..."
+                        />
+    
+                        {valueSearchDebounce !== "" &&
+                            (isLoadingSearch ? (
+                                <span className="loading-search"></span>
+                            ) : (
+                                <i
+                                    onClick={() => {
+                                        setValueSearch("");
+                                        setResultSearch([]);
+                                    }}
+                                    className="p-1 hover:bg-gray-200 rounded-full cursor-pointer"
                                 >
-                                    <Link
-                                        onClick={() => setIsModalSearch(false)}
-                                        href={`/blog/${blog.slug}-${blog.blogId}`}
-                                    >
-                                        <div className="flex items-center px-4 py-3">
-                                            <span className="border rounded-md px-[7px] py-[1px]">
-                                                #
-                                            </span>
-                                            <p className="ml-3">{blog.title}</p>
-                                            <IconChevronRight
-                                                size={15}
-                                                className="ml-auto fill-gray-800 group-hover:fill-white"
-                                            />
-                                        </div>
-                                    </Link>
-                                </li>
-                            );
-                        })}
-                    </ul>
+                                    <IconClose className="w-5 h-5 block" />
+                                </i>
+                            ))}
+                    </div>
+                    <div style={{ height: "2px" }} className={clsx(
+                        "loading-bar",
+                            {
+                                "before:content-none": !isLoadingSearch
+                            }
+                        )}>
+                    </div>
                 </div>
+                <ul className="flex-auto overflow-y-auto py-3 px-2">
+                    {resultSearch.map((blog) => {
+                        return (
+                            <li
+                                key={blog.blogId}
+                                className="rounded-md mb-2 bg-gray-50 group hover:bg-blue-500 hover:text-white"
+                            >
+                                <Link
+                                    onClick={() => setIsModalSearch(false)}
+                                    href={`/blog/${blog.slug}-${blog.blogId}`}
+                                >
+                                    <div className="flex items-center px-4 py-3">
+                                        <span className="border rounded-md px-[7px] py-[1px]">
+                                            #
+                                        </span>
+                                        <p className="ml-3">{blog.title}</p>
+                                        <IconChevronRight
+                                            size={15}
+                                            className="ml-auto fill-gray-800 group-hover:fill-white"
+                                        />
+                                    </div>
+                                </Link>
+                            </li>
+                        );
+                    })}
+                </ul>
             </Modal>
         </>
     );

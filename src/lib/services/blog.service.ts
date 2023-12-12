@@ -195,7 +195,7 @@ class BlogService {
         }
     }
 
-    async searchBlogs(query?: string): Promise<any> {
+    async searchBlogs({ query } : { query?: string }): Promise<any> {
         try {
             const blogsRes = await fetch(
                 `${API_BASE_URL}/api/blogs/search${query || ""}`,

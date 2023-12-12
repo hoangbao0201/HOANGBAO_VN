@@ -61,26 +61,27 @@ const ListImageEditBlog = ({}: ListImageEditBlogProps) => {
                 isOpen={isShowListImageBlog}
                 setIsOpen={setIsShowListImageBlog}
             >
-                <div>
-                    <div className="[&>div]:w-1/5 flex flex-wrap py-5 list-images overflow-hidden">
+                <div className="text-lg font-semibold mb-4">Danh sách ảnh</div>
+                <div className="flex-auto overflow-y-auto">
+                    <div className="relative md:columns-3 columns-2 gap-3 space-y-3">
                         {blogEdit?.blogImages &&
                             blogEdit?.blogImages.length > 0 &&
                             blogEdit?.blogImages.map((image, index) => {
                                 return (
                                     <div
                                         key={image.blogImageId}
-                                        className="relative group"
+                                        className="relative group block"
                                     >
                                         <Image
-                                            width={800}
-                                            height={800}
+                                            width={500}
+                                            height={500}
                                             alt="ảnh blog"
                                             src={`${image.urlImage}`}
-                                            className="group-hover:fill-black"
+                                            className="group-hover:fill-black object-cover w-full"
                                         />
                                         <div className="absolute top-0 bottom-0 left-0 right-0 flex flex-col items-center justify-center ease-linear transition-all delay-100 group-hover:bg-gray-950/50">
                                             <div className="transition-all opacity-0 translate-y-4 group-hover:translate-y-0 group-hover:opacity-100">
-                                                <div className="py-2 px-3 rounded-lg text-center bg-white cursor-pointer mb-2 min-w-[150px]">
+                                                <div className="px-2 py-1 rounded-full text-center bg-white cursor-pointer mb-2 min-w-[150px]">
                                                     Xóa ảnh
                                                 </div>
                                                 <div
@@ -89,7 +90,7 @@ const ListImageEditBlog = ({}: ListImageEditBlogProps) => {
                                                             image.urlImage
                                                         )
                                                     }
-                                                    className="py-2 px-3 rounded-lg bg-white cursor-pointer"
+                                                    className="px-2 py-1 rounded-full text-center bg-white cursor-pointer"
                                                 >
                                                     Sao chép địa chỉ
                                                 </div>

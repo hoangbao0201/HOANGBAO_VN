@@ -20,7 +20,7 @@ export async function generateMetadata(
 
     const previousImages = (await parent).openGraph?.images || [];
 
-    const listImagesBlog = blog.blogImages.length > 0 ? blog.blogImages.map((image) => image.urlImage) : [siteMetadata.imageBlog]
+    const listImagesBlog = blog?.blogImages.length > 0 ? blog.blogImages.map((image) => image.urlImage) : [siteMetadata.imageBlog]
 
     return {
         title: blog?.title + " | " + siteMetadata.title,
@@ -32,7 +32,7 @@ export async function generateMetadata(
 }
 
 const BlogDetailPage = async ({ params }: Props) => {
-    const { success, blog } = await blogService.getBlogDetail({ query: params.slugBlog, next: { revalidate: 3*60*60 } });
+    const { success, blog } = await blogService.getBlogDetail({ query: params.slugBlog, cache: "force-cache", next: { revalidate: 3*60*60 } });
 
     return (
         <>

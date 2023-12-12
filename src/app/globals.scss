@@ -304,18 +304,3 @@ body {
     }
 }
 
-
-// LIST IMAGES
-.list-images {
-
-    column-count: 4;
-    column-gap: 30px;
-
-    div {
-        -webkit-column-break-inside: avoid;
-        -moz-column-break-inside: avoid;
-        break-inside: avoid;
-        margin-bottom: 30px;
-        width: 100%;
-    }
-}
