@@ -6,15 +6,15 @@ import Image from "next/image";
 import AvatarRank from "../AvatarRank";
 import clsx from "clsx";
 import { GetReplyCommentsProps } from "@/lib/services/comment.service";
-import { CommentsBlogDetailProps } from "@/redux/commentsBlogDetail";
 
 interface ItemCommentProps {
-    comment: CommentsBlogDetailProps
+    comment: GetReplyCommentsProps
     childIndex?: number
     lastChild?: boolean
+    isLineSide?: boolean
 }
 
-const ItemComment = ({ comment, childIndex, lastChild }: ItemCommentProps) => {
+const ItemComment = ({ comment, childIndex, lastChild, isLineSide }: ItemCommentProps) => {
     return (
         <div className={clsx(
             "flex pb-2 relative",
@@ -24,7 +24,7 @@ const ItemComment = ({ comment, childIndex, lastChild }: ItemCommentProps) => {
         )}>
             
             {
-                !lastChild && (<div className="w-[2px] h-full absolute left-[22px] top-1 bottom-0 bg-gray-200"></div>)
+                isLineSide && !lastChild && (<div className="w-[2px] h-full absolute left-[22px] top-1 bottom-0 bg-gray-200"></div>)
             }
             {
                 childIndex && (<div className="border-l-2 border-b-2 border-gray-200 w-6 h-4 absolute left-[22px] top-1 bottom-0 rounded-bl-lg"></div>)

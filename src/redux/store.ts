@@ -1,11 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
 import blogEditSlide from "./blogEditSlide";
-import alertMessageSlide from "./alertMessageSlide";
+import commentsBlogDetail from "./commentsBlogDetail";
 
 const store = configureStore({
     reducer: {
         blogEdit: blogEditSlide,
-        alertMessage: alertMessageSlide,
+        commentsBlogDetail: commentsBlogDetail
     },
 });
 

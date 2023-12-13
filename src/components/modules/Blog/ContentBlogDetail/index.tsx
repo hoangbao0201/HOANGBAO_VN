@@ -12,6 +12,7 @@ import AvatarRank from "@/components/common/AvatarRank";
 import MDXComponent from "@/components/common/MDXContent";
 import blogService, { GetBlogDetailProps } from "@/lib/services/blog.service";
 
+
 interface ContentBlogDetailProps {
     blog: GetBlogDetailProps;
 }

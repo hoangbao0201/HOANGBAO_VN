@@ -1,61 +1,104 @@
-import Link from "next/link";
-import AvatarRank from "../AvatarRank";
-import Image from "next/image";
-import { Editor, EditorState } from "draft-js";
-import { Fragment, useRef, useState } from "react";
-import ItemComment from "./ItemComment";
+import { Fragment } from "react";
 
-const CardComment = () => {
-    const [editorState, setEditorState] = useState(() =>
-        EditorState.createEmpty()
+import ItemComment from "./ItemComment";
+import EditorComment from "./EditorComment";
+import commentService, {
+    GetCommentsProps,
+} from "@/lib/services/comment.service";
+import IconArrowTurnUp from "@/components/modules/icons/IconArrowTurnUp";
+import { useDispatch, useSelector } from "react-redux";
+import {
+    CommentsBlogDetailProps,
+    RootStateCommentsBlogDetail,
+    setReplyCommentsBlogDetailRDHandle,
+} from "@/redux/commentsBlogDetail";
+import ItemReplyComment from "./ItemReplyComment";
+
+const replyComment = [1, 2, 3];
+
+interface CardCommentProps {
+    comment: CommentsBlogDetailProps;
+}
+const CardComment = ({ comment }: CardCommentProps) => {
+    const dispatch = useDispatch();
+    const { commentsBlogDetail, isLoadingBlogDetail } = useSelector(
+        (state: RootStateCommentsBlogDetail) => state.commentsBlogDetail
     );
-    const editor = useRef<Editor | null>(null);
-    const focusEditor = () => {
-        if (editor.current) {
-            editor.current.focus();
-        }
+
+    const handleGetReplyComments = async () => {
+        try {
+            const replyCommentsRes = await commentService.getReplyComments({
+                query: `?blogId=${comment?.blogId}&parentId=${comment?.commentId}`,
+            });
+            if (replyCommentsRes?.success) {
+                dispatch(
+                    setReplyCommentsBlogDetailRDHandle({
+                        commentId: comment.commentId,
+                        replyComments: replyCommentsRes?.comments,
+                    })
+                );
+            }
+        } catch (error) {}
     };
 
-    return (
-        <div>
-            <div className="flex mb-5">
-                <Link href={`/`}>
-                    <AvatarRank rank={1}>
-                        <Image
-                            width={60}
-                            height={60}
-                            alt="ảnh người dùng"
-                            src={"/static/images/default/avatar_user_sm.jpg"}
-                            className="md:w-12 md:h-12 w-11 h-11 block object-cover rounded-full flex-shrink-0"
-                        />
-                    </AvatarRank>
-                </Link>
-                <div className="w-full flex-1 ml-2">
-                    <div className="border rounded-md pt-2 pb-3 px-3 mb-1 bg-gray-100 min-h-[50px]">
-                        <div>
-                            <Link href={`/user/admin`}>
-                                <span className="font-semibold">
-                                    Nguyễn Hoàng Bảo
-                                </span>
-                            </Link>
-                        </div>
-                        <div>
-                            Em rất thích nhưng dạng sách hiểu bản chất như này
-                            ạ. Em cảm ơn anh nhiều. Hy vọng bên cạnh sách giúp
-                            học AI, ML,... dùng những framework hay library đang
-                            hiện hành rất nhiều, mong anh chia sẻ thêm những
-                            cuốn sách đi từ bản chất như này lên ạ.
-                        </div>
-                    </div>
-                    <div className="mb-3 px-2 flex">
-                        <span className="text-sm font-medium hover:underline cursor-pointer">
-                            Phản hồi
-                        </span>
-                    </div>
 
-                    <ItemComment />
-                </div>
+    return (
+        <div className="mb-3">
+            <ItemComment comment={comment} />
+
+            <div className="">
+                {comment?.replyComments &&
+                    comment?.replyComments.map((replyComment, index) => {
+                        return (
+                            <Fragment key={replyComment.commentId}>
+                                <ItemReplyComment
+                                    childIndex={1}
+                                    lastChild={
+                                        comment?.replyComments.length ===
+                                        index + 1
+                                    }
+                                    isLineSide={commentsBlogDetail.length > 0}
+                                    comment={replyComment}
+                                />
+                            </Fragment>
+                        );
+                    })}
             </div>
+            {/* <EditorComment /> */}
+
+            {
+                comment?.replyComments ? (
+                    comment._count.replyComments > comment.replyComments.length && (
+                        <div className="pl-12 text-sm relative">
+                            <div className="border-l-2 border-b-2 border-gray-200 w-6 h-4 absolute left-[22px] bottom-0 rounded-bl-md -top-[6px]"></div>
+                            <div
+                                className="cursor-pointer flex items-center"
+                                onClick={handleGetReplyComments}
+                            >
+                                <i className="rotate-90 mx-2">
+                                    <IconArrowTurnUp size={17} />
+                                </i>
+                                Xem tất cả {comment?._count.replyComments} phản hồi
+                            </div>
+                        </div>
+                    )
+                ) : (
+                    comment._count.replyComments > 0 && (
+                        <div className="pl-12 text-sm relative">
+                            <div className="border-l-2 border-b-2 border-gray-200 w-6 h-4 absolute left-[22px] bottom-0 rounded-bl-md -top-[6px]"></div>
+                            <div
+                                className="cursor-pointer flex items-center"
+                                onClick={handleGetReplyComments}
+                            >
+                                <i className="rotate-90 mx-2">
+                                    <IconArrowTurnUp size={17} />
+                                </i>
+                                Xem tất cả {comment?._count.replyComments} phản hồi
+                            </div>
+                        </div>
+                    )
+                )
+            }
         </div>
     );
 };
