@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import Markdown from "react-markdown";
+import { Highlight, themes } from "prism-react-renderer";
 
 const config = {
     img: ({ node, ...props }: any) => {
@@ -36,6 +37,36 @@ const config = {
                 </Link>
                 {/* <Link href={`/`}><span className="">#</span></Link> */}
             </h2>
+        );
+    },
+    code: ({ node, children, ...props }: any) => {
+        return (
+            <Highlight
+                theme={themes.dracula}
+                code={children}
+                language="tsx"
+            >
+                {({
+                    className,
+                    style,
+                    tokens,
+                    getLineProps,
+                    getTokenProps,
+                }) => (
+                    <>
+                        {tokens.map((line, i) => (
+                            <div key={i} {...getLineProps({ line })}>
+                                {line.map((token, key) => (
+                                    <span
+                                        key={key}
+                                        {...getTokenProps({ token })}
+                                    />
+                                ))}
+                            </div>
+                        ))}
+                    </>
+                )}
+            </Highlight>
         );
     },
 };
