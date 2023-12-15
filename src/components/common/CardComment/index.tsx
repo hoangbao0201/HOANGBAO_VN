@@ -85,9 +85,9 @@ const CardComment = ({ comment }: CardCommentProps) => {
                 ) : (
                     comment._count.replyComments > 0 && (
                         <div className="pl-12 text-sm relative">
-                            <div className="border-l-2 border-b-2 border-gray-200 w-6 h-4 absolute left-[22px] bottom-0 rounded-bl-md -top-[6px]"></div>
+                            <div className="border-l-[2px] border-b-[2px] border-gray-200 w-6 h-4 absolute left-[20px] bottom-0 rounded-bl-md -top-[6px]"></div>
                             <div
-                                className="cursor-pointer flex items-center"
+                                className="cursor-pointer flex items-center select-none hover:underline"
                                 onClick={handleGetReplyComments}
                             >
                                 <i className="rotate-90 mx-2">

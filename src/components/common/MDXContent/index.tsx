@@ -2,6 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import Markdown from "react-markdown";
 import { Highlight, themes } from "prism-react-renderer";
+import IconCopy from "@/components/modules/icons/IconCopy";
 
 const config = {
     img: ({ node, ...props }: any) => {
@@ -40,10 +41,12 @@ const config = {
         );
     },
     code: ({ node, children, ...props }: any) => {
+        const title = props?.className ? props?.className.split("language-")[1] : null;
+        
         return (
             <Highlight
                 theme={themes.dracula}
-                code={children}
+                code={children.trim()}
                 language="tsx"
             >
                 {({
@@ -53,20 +56,39 @@ const config = {
                     getLineProps,
                     getTokenProps,
                 }) => (
-                    <>
-                        {tokens.map((line, i) => (
-                            <div key={i} {...getLineProps({ line })}>
-                                {line.map((token, key) => (
-                                    <span
-                                        key={key}
-                                        {...getTokenProps({ token })}
-                                    />
+                        <>
+                            {
+                                title && <div className="border-b pb-2 px-4 flex items-center justify-between">
+                                    <span>{title}</span>
+                                    <i onClick={() => navigator.clipboard.writeText(`${children.trim()}`)} className="hover:bg-white/25 cursor-pointer p-2 rounded-full">
+                                        <IconCopy className="fill-white block"/>
+                                    </i>
+                                </div>
+                            }
+                            <div className="py-4 px-4">
+                                {tokens.map((line, i) => (
+                                    <div key={i} {...getLineProps({ line })}>
+                                        {line.map((token, key) => (
+                                            <span
+                                                key={key}
+                                                {...getTokenProps({ token })}
+                                            />
+                                        ))}
+                                    </div>
                                 ))}
                             </div>
-                        ))}
-                    </>
+                        </>
                 )}
             </Highlight>
+        );
+    },
+    inlineCode: ({ node, children, ...props }: any) => {
+        return (
+            <>
+                <Link href={`/`} className="">
+                    {children}
+                </Link>
+            </>
         );
     },
 };
@@ -79,7 +101,7 @@ const MDXComponent = ({ children }: MDXComponentProps) => {
         <Markdown
             components={config}
             className={
-                "prose text-gray-800 max-w-none prose-lg prose-a:no-underline prose-img:m-0 prose-img:border-none"
+                "prose text-gray-800 max-w-none prose-lg prose-a:no-underline prose-img:m-0 prose-img:border-none prose-pre:px-0 prose-pre:py-2"
             }
         >
             {/* prose max-w-none prose-lg prose-a:no-underline */}

@@ -3,9 +3,10 @@
 import React from "react";
 import { SessionProvider } from "next-auth/react";
 
-import { AppProgressBar as ProgressBar } from 'next-nprogress-bar';
-import { Provider } from "react-redux";
 import store from "@/redux/store";
+
+import { Provider } from "react-redux";
+import { AppProgressBar as ProgressBar } from 'next-nprogress-bar';
 
 
 export default function ProviderLayout({

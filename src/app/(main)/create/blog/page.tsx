@@ -1,8 +1,8 @@
 "use client"
 
+import { useRouter } from "next/navigation";
 import { ChangeEvent, Suspense, useEffect, useState } from "react";
 
-import ReactMarkdown from "react-markdown";
 import { useSession } from "next-auth/react";
 import Editor from "react-markdown-editor-lite";
 import "react-markdown-editor-lite/lib/index.css";
@@ -10,15 +10,12 @@ import CreatableSelect from "react-select/creatable";
 import { ActionMeta, MultiValue } from "react-select";
 
 import Modal from "@/components/common/Modal";
-import { API_BASE_URL } from "@/lib/constants";
 import { textToSlug } from "@/utils/testToSlug";
 import blogService from "@/lib/services/blog.service";
-import IconAlertCircle from "@/components/modules/icons/IconAlertCircle";
 import imageService from "@/lib/services/image.service";
-import { Session } from "next-auth";
-import { useRouter } from "next/navigation";
 import MDXComponent from "@/components/common/MDXContent";
 import { ShowToastify } from "@/components/common/ShowToastify";
+import IconAlertCircle from "@/components/modules/icons/IconAlertCircle";
 
 
 
@@ -234,18 +231,15 @@ const CreateBlogPage = () => {
                         session ? (
                             <Editor
                                 value={dataBlog.content}
+                                htmlClass=" "
                                 className="w-full min-h-screen border-none"
                                 onChange={eventOnchangeEditorChange}
                                 onImageUpload={handleUploadImageBlog}
                                 renderHTML={(text) => {
                                     return (
-                                        // <ReactMarkdown
-                                        //     className="my-prose"
-                                        // >
                                         <MDXComponent>
                                             {text}
                                         </MDXComponent>
-                                        // </ReactMarkdown>
                                     );
                                 }}
                             />

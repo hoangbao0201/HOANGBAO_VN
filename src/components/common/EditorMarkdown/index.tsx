@@ -9,6 +9,7 @@ import convertTime from "@/utils/convertTime";
 import TextActionSave from "./Toolbar/TextActionSave";
 import imageService from "@/lib/services/image.service";
 import { useEffect } from "react";
+import MDXComponent from "../MDXContent";
 
 interface EditorMarkdownProps {
     lastEdited: Date;
@@ -45,13 +46,6 @@ const EditorMarkdown = ({
         } catch (error) {}
     };
 
-    const editorConfig = {
-        onImageUpload: handleUploadImageBlog,
-        renderHTML: (text: string) => (
-          <ReactMarkdown className="prose">{text}</ReactMarkdown>
-        ),
-    };
-
     // Use TextActionSave with the provided configuration
     Editor.use(TextActionSave, {
         start: `Lần sửa cuối ${convertTime(lastEdited)}`,
@@ -68,11 +62,15 @@ const EditorMarkdown = ({
         <div>
             <Editor
                 value={content || ""}
+                htmlClass=" "
                 className="w-full min-h-screen border-none"
                 onChange={({ text, html }) =>
                     onchangeContent({ content: text })
                 }
-                {...editorConfig}
+                onImageUpload={handleUploadImageBlog}
+                renderHTML={(text: string) => (
+                    <MDXComponent>{text}</MDXComponent>
+                )}
             />
         </div>
     );

@@ -18,8 +18,7 @@ export async function generateMetadata(
     const { success, blog }: { success: boolean; blog: GetBlogDetailProps } =
         await blogService.getBlogDetail({
             query: params.slugBlog,
-            // next: { revalidate: 3 * 60 * 60 },
-            cache: "no-store"
+            next: { revalidate: 3 * 60 * 60 },
         });
 
     const previousImages = (await parent).openGraph?.images || [];

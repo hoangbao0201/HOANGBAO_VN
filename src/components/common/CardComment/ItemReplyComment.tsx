@@ -24,10 +24,10 @@ const ItemComment = ({ comment, childIndex, lastChild, isLineSide }: ItemComment
         )}>
             
             {
-                isLineSide && !lastChild && (<div className="w-[2px] h-full absolute left-[22px] top-1 bottom-0 bg-gray-200"></div>)
+                isLineSide && !lastChild && (<div className="border-l-2 border-gray-200 h-full absolute left-[20px] top-1 bottom-0 bg-gray-200"></div>)
             }
             {
-                childIndex && (<div className="border-l-2 border-b-2 border-gray-200 w-6 h-4 absolute left-[22px] top-1 bottom-0 rounded-bl-lg"></div>)
+                childIndex && (<div className="border-l-2 border-b-2 border-gray-200 w-6 h-4 absolute left-[20px] top-1 bottom-0 rounded-bl-lg"></div>)
             }
 
             <AvatarRank rank={1}>
@@ -53,11 +53,6 @@ const ItemComment = ({ comment, childIndex, lastChild, isLineSide }: ItemComment
                         </Link>
                     </div>
                     <div>
-                        {/* Em rất thích nhưng dạng sách hiểu bản chất như này ạ. Em
-                        cảm ơn anh nhiều. Hy vọng bên cạnh sách giúp học AI,
-                        ML,... dùng những framework hay library đang hiện hành
-                        rất nhiều, mong anh chia sẻ thêm những cuốn sách đi từ
-                        bản chất như này lên ạ. */}
                         {comment?.commentText}
                     </div>
                 </div>

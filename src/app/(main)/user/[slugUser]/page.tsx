@@ -1,7 +1,6 @@
 import Image from "next/image";
 import dynamic from "next/dynamic";
 
-
 import userService, { GetUserDetailProps } from "@/lib/services/user.service";
 import { Metadata, ResolvingMetadata } from "next";
 import siteMetadata from "@/lib/siteMetadata";
@@ -14,7 +13,7 @@ const ListBlogUser = dynamic(
 );
 
 type Props = {
-    params: { slugUser: string }
+    params: { slugUser: string };
     searchParams: { [key: string]: string | string[] | undefined };
 };
 
@@ -22,7 +21,11 @@ export async function generateMetadata(
     { params }: Props,
     parent: ResolvingMetadata
 ): Promise<Metadata> {
-    const { success, user } : { success: boolean, user: GetUserDetailProps } = await userService.getUserDetail(params.slugUser);
+    const { success, user }: { success: boolean; user: GetUserDetailProps } =
+        await userService.getUserDetail({
+            username: params.slugUser,
+            next: { revalidate: 3 * 60 * 60 },
+        });
 
     return {
         title: `${user.name} - ${user.username}`,
@@ -30,9 +33,11 @@ export async function generateMetadata(
     };
 }
 
-const UserDetailPage = async ({ params } : Props) => {
-
-    const { success, user } = await userService.getUserDetail(params.slugUser);
+const UserDetailPage = async ({ params }: Props) => {
+    const { success, user } = await userService.getUserDetail({
+        username: params.slugUser,
+        next: { revalidate: 3 * 60 * 60 },
+    });
 
     return (
         <main>
