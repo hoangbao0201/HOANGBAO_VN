@@ -1,5 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
+import { useState } from "react";
+
 import Markdown from "react-markdown";
 import { Highlight, themes } from "prism-react-renderer";
 import IconCopy from "@/components/modules/icons/IconCopy";
@@ -41,12 +43,24 @@ const config = {
         );
     },
     code: ({ node, children, ...props }: any) => {
-        const title = props?.className ? props?.className.split("language-")[1] : null;
-        
+        // const [isCopied, setIsCopied] = useState(false);
+        const title = props?.className
+            ? props?.className.split("language-")[1]
+            : null;
+
+        // const copy = async () => {
+            // await navigator.clipboard.writeText(`${children?.trim()}`);
+            // setIsCopied(true);
+
+            // setTimeout(() => {
+            //     setIsCopied(false);
+            // }, 5000);
+        // };
+
         return (
             <Highlight
                 theme={themes.dracula}
-                code={children.trim()}
+                code={children}
                 language="tsx"
             >
                 {({
@@ -56,39 +70,37 @@ const config = {
                     getLineProps,
                     getTokenProps,
                 }) => (
-                        <>
-                            {
-                                title && <div className="border-b pb-2 px-4 flex items-center justify-between">
-                                    <span>{title}</span>
-                                    <i onClick={() => navigator.clipboard.writeText(`${children.trim()}`)} className="hover:bg-white/25 cursor-pointer p-2 rounded-full">
+                    <>
+                        {title && (
+                            <span className="border-b pb-2 px-4 flex items-center justify-between">
+                                <span>{title}</span>
+                                <i onClick={() => navigator.clipboard.writeText(`${children.trim()}`)} className="hover:bg-white/25 cursor-pointer p-2 rounded-full">
                                         <IconCopy className="fill-white block"/>
                                     </i>
-                                </div>
-                            }
-                            <div className="py-4 px-4">
-                                {tokens.map((line, i) => (
-                                    <div key={i} {...getLineProps({ line })}>
-                                        {line.map((token, key) => (
-                                            <span
-                                                key={key}
-                                                {...getTokenProps({ token })}
-                                            />
-                                        ))}
-                                    </div>
-                                ))}
-                            </div>
-                        </>
+                            </span>
+                        )}
+                        {/* <button disabled={isCopied} onClick={copy}>
+                            {isCopied ? "Copied!" : "Copy"}
+                        </button> */}
+                        <span className="py-4 px-4 block overflow-x-auto">
+                            {tokens.map((line, i) => (
+                                <span
+                                    key={i}
+                                    {...getLineProps({ line })}
+                                    className="w-full block"
+                                >
+                                    {line.map((token, key) => (
+                                        <span
+                                            key={key}
+                                            {...getTokenProps({ token })}
+                                        />
+                                    ))}
+                                </span>
+                            ))}
+                        </span>
+                    </>
                 )}
             </Highlight>
-        );
-    },
-    inlineCode: ({ node, children, ...props }: any) => {
-        return (
-            <>
-                <Link href={`/`} className="">
-                    {children}
-                </Link>
-            </>
         );
     },
 };

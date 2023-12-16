@@ -328,6 +328,26 @@ class BlogService {
             };
         }
     }
+
+    async findAllSEO(): Promise<any> {
+        try {
+            const blogsRes = await fetch(
+                `${API_BASE_URL}/api/blogs/seo`,
+                {
+                    method: "GET",
+                }
+            );
+
+            const blogs = await blogsRes.json();
+            return blogs;
+        } catch (error) {
+            return {
+                success: false,
+                message: "error blogs successful",
+                error: error,
+            };
+        }
+    }
 }
 
 const blogService = new BlogService();

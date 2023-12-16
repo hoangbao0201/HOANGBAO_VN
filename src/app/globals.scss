@@ -181,6 +181,15 @@ body {
         }
     }
 }
+// LOADING BUTTON
+.loading-button {
+    border-radius: 70%;
+    display: inline-block;
+    border-top: 2px solid #333;
+    border-right: 2px solid transparent;
+    box-sizing: border-box;
+    animation: rotation 1s linear infinite;
+}
 
 // WINTER SNOW
 .Snowstyles {
@@ -304,3 +313,10 @@ body {
     }
 }
 
+// List Item Comments
+
+.list-item-comments {
+    .item-comment {
+
+    }
+}

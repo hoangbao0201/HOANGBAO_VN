@@ -1,19 +1,25 @@
-"use client"
+"use client";
 
 import { Fragment, useRef, useState } from "react";
 
+import Link from "next/link";
+import Image from "next/image";
 import { useSelector } from "react-redux";
+
+import draftToHtml from "draftjs-to-html";
+import 'draft-js/dist/Draft.css';
 import { Editor, EditorState, convertToRaw } from "draft-js";
 
+import AvatarRank from "@/components/common/AvatarRank";
 import CardComment from "@/components/common/CardComment";
 import { RootStateCommentsBlogDetail } from "@/redux/commentsBlogDetail";
 
 
-
-interface ContentCommentProps {
-}
-const ContentComment = ({  } : ContentCommentProps) => {
-    const { commentsBlogDetail, isLoadingBlogDetail } = useSelector((state: RootStateCommentsBlogDetail) => state.commentsBlogDetail);
+interface ContentCommentProps {}
+const ContentComment = ({}: ContentCommentProps) => {
+    const { commentsBlogDetail, isLoadingBlogDetail } = useSelector(
+        (state: RootStateCommentsBlogDetail) => state.commentsBlogDetail
+    );
     const [editorState, setEditorState] = useState(() =>
         EditorState.createEmpty()
     );
@@ -25,9 +31,8 @@ const ContentComment = ({  } : ContentCommentProps) => {
     };
 
     const handleSendComment = () => {
-        console.log(
-            JSON.stringify(convertToRaw(editorState.getCurrentContent()))
-        );
+        const text = convertToRaw(editorState.getCurrentContent());
+        console.log("req ", text);
     };
 
     // console.log({ commentsBlogDetail, isLoadingBlogDetail })
@@ -36,7 +41,7 @@ const ContentComment = ({  } : ContentCommentProps) => {
         <div className="md:px-5 px-3 py-5 bg-white mt-5 md:rounded-md shadow-sm">
             <h5 className="text-lg font-semibold mb-4">Bình luận bài viết</h5>
 
-            {/* <div className="flex mb-5">
+            <div className="flex mb-5">
                 <AvatarRank rank={1}>
                     <Link href={`/`}>
                         <Image
@@ -53,14 +58,16 @@ const ContentComment = ({  } : ContentCommentProps) => {
                         className="border rounded-md py-3 px-3 mb-2 bg-gray-100"
                         onClick={focusEditor}
                     >
-                        <Editor
+                        {/* <Editor
                             ref={editor}
                             editorState={editorState}
-                            // placeholder="Viết bình luận..."
+                            placeholder="Viết bình luận..."
                             onChange={(editorState) =>
                                 setEditorState(editorState)
                             }
-                        />
+                        /> */}
+                        {/* <Editor editorState={editorState} onChange={setEditorState} />
+                        <div dangerouslySetInnerHTML={{ __html: draftToHtml(convertToRaw(editorState.getCurrentContent())) }}></div> */}
                     </div>
                     <div className="flex space-x-2">
                         <input className="w-full border px-3 py-2 rounded-md outline-none" />
@@ -72,12 +79,12 @@ const ContentComment = ({  } : ContentCommentProps) => {
                         </button>
                     </div>
                 </div>
-            </div> */}
+            </div>
 
             {commentsBlogDetail.map((comment, index) => {
                 return (
                     <Fragment key={comment?.commentId || index}>
-                        <CardComment comment={comment}/>
+                        <CardComment comment={comment} />
                     </Fragment>
                 );
             })}

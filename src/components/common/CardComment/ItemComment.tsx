@@ -10,25 +10,23 @@ import { CommentsBlogDetailProps } from "@/redux/commentsBlogDetail";
 
 interface ItemCommentProps {
     comment: CommentsBlogDetailProps
+    isReply?: boolean
     childIndex?: number
     lastChild?: boolean
 }
 
-const ItemComment = ({ comment, childIndex, lastChild }: ItemCommentProps) => {
+const ItemComment = ({ comment, isReply, childIndex, lastChild }: ItemCommentProps) => {
     return (
         <div className={clsx(
-            "flex pb-2 relative",
+            "flex pb-2 relative item-comment",
             {
                 "pl-12": childIndex == 1
             }
         )}>
             
             {
-                !lastChild && (<div className="border-l-2 border-gray-200 h-full absolute left-[20px] top-1 bottom-0"></div>)
+                isReply && !lastChild && (<div className="border-l-2 border-gray-200 h-full absolute left-[20px] top-1 bottom-0"></div>)
             }
-            {/* {
-                childIndex && (<div className="border-l-4 border-b-4 border-gray-200 w-6 h-4 absolute left-[20px] top-1 bottom-0 rounded-bl-lg"></div>)
-            } */}
 
             <AvatarRank rank={1}>
                 <Link href={`/`}>
