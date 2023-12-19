@@ -7,12 +7,14 @@ import IconClose from "../../modules/icons/IconClose";
 
 
 interface ModalProps {
+    title?: string
     children: ReactNode;
     isOpen: boolean;
     size?: "small" | "medium" | "large" | "extra" | "full";
     setIsOpen: Dispatch<SetStateAction<boolean>>;
 }
 const Modal = ({
+    title,
     children,
     isOpen,
     setIsOpen,
@@ -45,7 +47,7 @@ const Modal = ({
                     >
                         <Dialog.Panel
                             className={clsx(
-                                "relative md:px-10 px-5 pt-4 pb-8 min-h-0 flex flex-col w-full mx-auto transform bg-white rounded-lg shadow-xl transition-all",
+                                "relative flex flex-col min-h-0 w-full mx-auto transform bg-white rounded-lg shadow-xl transition-all",
                                 {
                                     "max-w-md": size === "small",
                                     "max-w-xl": size === "medium",
@@ -55,13 +57,14 @@ const Modal = ({
                                 }
                             )}
                         >
+                            <Dialog.Title className={`font-semibold md:text-xl text-lg py-4 text-center border-b`}>{title}</Dialog.Title>
                             <button
                                 onClick={() => setIsOpen(false)}
-                                className="absolute right-4 top-3 bg-gray-200 hover:bg-gray-300 p-2 rounded-full outline-none"
+                                className="absolute right-4 top-4 bg-gray-200 hover:bg-gray-300 p-2 rounded-full outline-none"
                             >
                                 <IconClose className="w-5 h-5 block"/>
                             </button>
-                            {children}
+                            <div className="relative md:px-10 px-5 py-4 flex flex-col overflow-y-auto">{children}</div>
                         </Dialog.Panel>
                     </Transition.Child>
                 </div>

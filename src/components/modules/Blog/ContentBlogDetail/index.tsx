@@ -104,7 +104,7 @@ const ContentBlogDetail = ({ blog }: ContentBlogDetailProps) => {
                 </div>
 
                 <div>
-                    <ContentComment />
+                    <ContentComment blog={blog}/>
                 </div>
             </div>
         </>

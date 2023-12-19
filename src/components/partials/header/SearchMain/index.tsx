@@ -58,15 +58,15 @@ const SearchMain = () => {
                 onClick={() => setIsModalSearch(true)}
                 className="w-10 block cursor-pointer md:hidden bg-gray-100 rounded-full outline-blue-600 outline-2 hover:outline-dashed"
             >
-                <IconSearch size={20} className="h-10 mx-auto" />
+                <IconSearch size={18} className="h-10 mx-auto" />
             </i>
             <Modal
+                title="Tìm kiếm"
                 isOpen={isModalSearch}
                 setIsOpen={setIsModalSearch}
                 size="large"
             >
-                <div className="font-semibold text-lg mb-4">Tìm kiếm</div>
-                <div>
+                <div className="mb-4">
                     <div className="border-b flex items-center">
                         <i>
                             <IconSearch className="" />
@@ -101,7 +101,7 @@ const SearchMain = () => {
                         )}>
                     </div>
                 </div>
-                <ul className="flex-auto overflow-y-auto py-3 px-2">
+                <ul className="flex-auto overflow-y-auto px-2">
                     {resultSearch.map((blog) => {
                         return (
                             <li

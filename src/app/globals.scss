@@ -315,8 +315,10 @@ body {
 
 // List Item Comments
 
-.list-item-comments {
-    .item-comment {
-
-    }
+#toggleButton span {
+    display: none;
+}
+#toggleButton:active > span {
+    display: block;
+    transition: display 3s ease;
 }

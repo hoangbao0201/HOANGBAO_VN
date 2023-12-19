@@ -3,14 +3,16 @@
 import Image from "next/image";
 import { useState } from "react";
 
-import Modal from "@/components/common/Modal";
-import { useSelector } from "react-redux";
-import { EditBlogSlideProps } from "@/redux/blogEditSlide";
 import { toast } from "react-toastify";
+import { useDispatch, useSelector } from "react-redux";
+
+import Modal from "@/components/common/Modal";
 import IconCheckMark from "../../icons/IconCheckMark";
+import { EditBlogSlideProps, addImageBlogEditRDHandle } from "@/redux/blogEditSlide";
 
 interface ListImageEditBlogProps {}
 const ListImageEditBlog = ({}: ListImageEditBlogProps) => {
+    const dispatch = useDispatch();
     const { blogEdit, isSave }: EditBlogSlideProps = useSelector(
         (state: any) => state.blogEdit
     );
@@ -48,6 +50,10 @@ const ListImageEditBlog = ({}: ListImageEditBlogProps) => {
         );
     };
 
+    const handleAddImage = (imageId: number, url: string) => {
+        dispatch(addImageBlogEditRDHandle(`![](${url})`));
+    }
+
     return (
         <>
             <button
@@ -58,10 +64,10 @@ const ListImageEditBlog = ({}: ListImageEditBlogProps) => {
             </button>
             <Modal
                 size="large"
+                title="Danh sách ảnh"
                 isOpen={isShowListImageBlog}
                 setIsOpen={setIsShowListImageBlog}
             >
-                <div className="text-lg font-semibold mb-4">Danh sách ảnh</div>
                 <div className="flex-auto overflow-y-auto">
                     <div className="relative md:columns-3 columns-2 gap-3 space-y-3">
                         {blogEdit?.blogImages &&
@@ -73,16 +79,22 @@ const ListImageEditBlog = ({}: ListImageEditBlogProps) => {
                                         className="relative group block"
                                     >
                                         <Image
-                                            width={500}
-                                            height={500}
+                                            width={200}
+                                            height={200}
                                             alt="ảnh blog"
                                             src={`${image.urlImage}`}
                                             className="group-hover:fill-black object-cover w-full"
                                         />
-                                        <div className="absolute top-0 bottom-0 left-0 right-0 flex flex-col items-center justify-center ease-linear transition-all delay-100 group-hover:bg-gray-950/50">
-                                            <div className="transition-all opacity-0 translate-y-4 group-hover:translate-y-0 group-hover:opacity-100">
-                                                <div className="px-2 py-1 rounded-full text-center bg-white cursor-pointer mb-2 min-w-[150px]">
+                                        <div className="select-none absolute top-0 bottom-0 left-0 right-0 flex flex-col items-center justify-center ease-linear transition-all delay-100 group-hover:bg-gray-950/50">
+                                            <div className="transition-all text-sm opacity-0 translate-y-4 group-hover:translate-y-0 group-hover:opacity-100">
+                                                <div className="px-2 py-1 mb-1 rounded-md text-center hover:bg-gray-200 bg-white cursor-pointer min-w-[150px]">
                                                     Xóa ảnh
+                                                </div>
+                                                <div
+                                                    onClick={() => handleAddImage(image.blogImageId, image.urlImage)}
+                                                    className="px-2 py-1 mb-1 rounded-md text-center hover:bg-gray-200 bg-white cursor-pointer"
+                                                >
+                                                    Thêm ảnh vào bài viết
                                                 </div>
                                                 <div
                                                     onClick={() =>
@@ -90,7 +102,7 @@ const ListImageEditBlog = ({}: ListImageEditBlogProps) => {
                                                             image.urlImage
                                                         )
                                                     }
-                                                    className="px-2 py-1 rounded-full text-center bg-white cursor-pointer"
+                                                    className="px-2 py-1 rounded-md text-center hover:bg-gray-200 bg-white cursor-pointer"
                                                 >
                                                     Sao chép địa chỉ
                                                 </div>

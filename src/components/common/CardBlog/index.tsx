@@ -1,4 +1,3 @@
-
 import Link from "next/link";
 import Image from "next/image";
 
@@ -13,7 +12,6 @@ import dynamic from "next/dynamic";
 const ButtonAction = dynamic(() => import('./ButtonAcction'), {
     ssr: false
 });
-
 
 interface CardBlog {
     blog: GetBlogsProps
@@ -74,7 +72,7 @@ const CardBlog = ({blog} : CardBlog) => {
                         <div className="text-lg line-clamp-4">{blog.summary}</div>
                     </div>
                 </div>
-                
+
                 <div className="px-4 my-3">
                     <TagsBlog
                         listTag={blog.blogTags}

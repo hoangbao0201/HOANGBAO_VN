@@ -4,7 +4,6 @@ import { useState } from "react";
 
 import Markdown from "react-markdown";
 import { Highlight, themes } from "prism-react-renderer";
-import IconCopy from "@/components/modules/icons/IconCopy";
 
 const config = {
     img: ({ node, ...props }: any) => {
@@ -48,19 +47,19 @@ const config = {
             ? props?.className.split("language-")[1]
             : null;
 
-        // const copy = async () => {
-            // await navigator.clipboard.writeText(`${children?.trim()}`);
-            // setIsCopied(true);
+        // const handleCopy = async () => {
+        //     await navigator.clipboard.writeText(`${children?.trim()}`);
+        //     setIsCopied(true);
 
-            // setTimeout(() => {
-            //     setIsCopied(false);
-            // }, 5000);
+        //     setTimeout(() => {
+        //         setIsCopied(false);
+        //     }, 3000);
         // };
 
         return (
             <Highlight
                 theme={themes.dracula}
-                code={children}
+                code={children.trim()}
                 language="tsx"
             >
                 {({
@@ -72,17 +71,19 @@ const config = {
                 }) => (
                     <>
                         {title && (
-                            <span className="border-b pb-2 px-4 flex items-center justify-between">
-                                <span>{title}</span>
-                                <i onClick={() => navigator.clipboard.writeText(`${children.trim()}`)} className="hover:bg-white/25 cursor-pointer p-2 rounded-full">
-                                        <IconCopy className="fill-white block"/>
-                                    </i>
+                            <span className="mt-[2px] w-full flex justify-between text-sm relative">
+                                <span className="pb-2 px-4 h-10 leading-10 border-b-2 border-blue-500">{title}</span>
+                                <span className="bg-slate-600 h-10 block w-full rounded-tl-md border border-gray-500">
+                                </span>
+                                {/* <span onClick={handleCopy} className="absolute block right-2 top-1 hover:bg-white/25 cursor-pointer rounded-md">
+                                    <IconCopy className={`${isCopied ? "fill-blue-600" : "fill-gray-300"} m-1`} size={25}/>
+                                </span> */}
                             </span>
                         )}
                         {/* <button disabled={isCopied} onClick={copy}>
                             {isCopied ? "Copied!" : "Copy"}
                         </button> */}
-                        <span className="py-4 px-4 block overflow-x-auto">
+                        <span className="py-4 px-4 block overflow-x-auto text-sm">
                             {tokens.map((line, i) => (
                                 <span
                                     key={i}
@@ -113,7 +114,7 @@ const MDXComponent = ({ children }: MDXComponentProps) => {
         <Markdown
             components={config}
             className={
-                "prose text-gray-800 max-w-none prose-lg prose-a:no-underline prose-img:m-0 prose-img:border-none prose-pre:px-0 prose-pre:py-2"
+                "prose max-w-none prose-lg prose-a:no-underline prose-img:m-0 prose-img:border-none prose-pre:px-0 prose-pre:py-2"
             }
         >
             {/* prose max-w-none prose-lg prose-a:no-underline */}

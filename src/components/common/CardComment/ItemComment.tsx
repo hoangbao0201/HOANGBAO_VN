@@ -7,6 +7,7 @@ import AvatarRank from "../AvatarRank";
 import clsx from "clsx";
 import { GetReplyCommentsProps } from "@/lib/services/comment.service";
 import { CommentsBlogDetailProps } from "@/redux/commentsBlogDetail";
+import draftToHtml from "draftjs-to-html";
 
 interface ItemCommentProps {
     comment: CommentsBlogDetailProps
@@ -51,7 +52,11 @@ const ItemComment = ({ comment, isReply, childIndex, lastChild }: ItemCommentPro
                         </Link>
                     </div>
                     <div>
-                        {comment?.commentText}
+                        <div
+                            dangerouslySetInnerHTML={{
+                                __html: draftToHtml(JSON.parse(comment?.commentText || ""))
+                            }}
+                        ></div>
                     </div>
                 </div>
                 <div className="px-2 flex">

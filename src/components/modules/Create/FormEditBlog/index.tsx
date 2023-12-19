@@ -9,7 +9,7 @@ import ListImageEditBlog from "./ListImageBlog";
 import EditBlogConfirm from "./EditBlogConfirm";
 import { useDebounce } from "@/hook/useDebounce";
 import EditorMarkdown from "@/components/common/EditorMarkdown";
-import { setIsSaveRDHandle, setblogEditRDHandle } from "@/redux/blogEditSlide";
+import { setIsSaveBlogEditRDHandle, setBlogEditRDHandle } from "@/redux/blogEditSlide";
 import blogService, { GetBlogEditProps } from "@/lib/services/blog.service";
 
 
@@ -28,8 +28,8 @@ const FormEditBlog = ({ blog } : FormEditBlogProps) => {
 
     // Onchange Data Blog
     const eventOnchangeDataBlog = (data: { [key: string]: any }) => {
-        dispatch(setIsSaveRDHandle(false));     
-        dispatch(setblogEditRDHandle({
+        dispatch(setIsSaveBlogEditRDHandle(false));     
+        dispatch(setBlogEditRDHandle({
             ...blogEdit,
             ...data
         }));
@@ -47,7 +47,7 @@ const FormEditBlog = ({ blog } : FormEditBlogProps) => {
             });
 
             if(saveEditBlogRes && saveEditBlogRes.success) {
-                dispatch(setIsSaveRDHandle(true));
+                dispatch(setIsSaveBlogEditRDHandle(true));
             }
         } catch (error) {
             
@@ -56,7 +56,7 @@ const FormEditBlog = ({ blog } : FormEditBlogProps) => {
     
     useEffect(() => {
         if(isSave) {
-            dispatch(setblogEditRDHandle(blog));
+            dispatch(setBlogEditRDHandle(blog));
             console.log("load lần đầu")
         }
         else {

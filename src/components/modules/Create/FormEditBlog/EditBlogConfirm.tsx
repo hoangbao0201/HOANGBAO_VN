@@ -3,7 +3,7 @@ import { ChangeEvent, useState } from "react";
 import Modal from "@/components/common/Modal";
 import { useDispatch, useSelector } from "react-redux";
 import CreatableSelect from "react-select/creatable";
-import { setblogEditRDHandle } from "@/redux/blogEditSlide";
+import { setBlogEditRDHandle } from "@/redux/blogEditSlide";
 import IconAlertCircle from "../../icons/IconAlertCircle";
 import { MultiValue } from "react-select";
 
@@ -33,7 +33,7 @@ const EditBlogConfirm = () => {
     >([{ label: "ReactJS", value: "reactjs" }]);
 
     const eventOnchangeDataBlog = (e: ChangeEvent<HTMLInputElement>) => {
-        dispatch(setblogEditRDHandle({
+        dispatch(setBlogEditRDHandle({
             ...blogEdit,
             [e.target.name]: e.target.value,
         }));
@@ -188,7 +188,7 @@ const EditBlogConfirm = () => {
                                             //     published: e.target.checked,
                                             // })
                                             dispatch(
-                                                setblogEditRDHandle({
+                                                setBlogEditRDHandle({
                                                     ...blogEdit,
                                                     published: e.target.checked,
                                                 })

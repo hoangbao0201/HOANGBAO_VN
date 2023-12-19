@@ -3,9 +3,12 @@
 import Link from "next/link";
 import Image from "next/image";
 
-import AvatarRank from "../AvatarRank";
 import clsx from "clsx";
+import draftToHtml from "draftjs-to-html";
+
+import AvatarRank from "../AvatarRank";
 import { GetReplyCommentsProps } from "@/lib/services/comment.service";
+import { RawDraftContentState } from "draft-js";
 
 interface ItemCommentProps {
     comment: GetReplyCommentsProps
@@ -53,7 +56,11 @@ const ItemComment = ({ comment, childIndex, lastChild, isLineSide }: ItemComment
                         </Link>
                     </div>
                     <div>
-                        {comment?.commentText}
+                        <div
+                            dangerouslySetInnerHTML={{
+                                __html: draftToHtml(JSON.parse(comment?.commentText || ""))
+                            }}
+                        ></div>
                     </div>
                 </div>
                 <div className="px-2 flex">
