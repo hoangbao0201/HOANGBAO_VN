@@ -100,6 +100,25 @@ class CommentService {
         }
     }
 
+    async deleteComment({ commentId, token } : { commentId: number, token: string }): Promise<any> {
+        try {
+            const commentRes = await fetch(`${API_BASE_URL}/api/comments/${commentId || ""}`, {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+            const comment = await commentRes.json();
+            return comment;
+        } catch (error) {
+            return {
+                success: false,
+                message: "error delete comment successful",
+                error: error,
+            };
+        }
+    }
 }
 
 const commentService = new CommentService();

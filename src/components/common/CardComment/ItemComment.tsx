@@ -8,6 +8,7 @@ import clsx from "clsx";
 import { GetReplyCommentsProps } from "@/lib/services/comment.service";
 import { CommentsBlogDetailProps } from "@/redux/commentsBlogDetail";
 import draftToHtml from "draftjs-to-html";
+import ButtonAction from "./ButtonAction";
 
 interface ItemCommentProps {
     comment: CommentsBlogDetailProps
@@ -44,12 +45,17 @@ const ItemComment = ({ comment, isReply, childIndex, lastChild }: ItemCommentPro
                 <div
                     className="border rounded-md pt-2 pb-3 px-3 mb-1 bg-gray-100 min-h-[50px]"
                 >
-                    <div>
+                    <div className="flex items-center justify-between">
                         <Link href={`/user/${comment?.sender.username}`}>
                             <span className="font-semibold">
                                 {comment?.sender.name}
                             </span>
                         </Link>
+
+                        <ButtonAction
+                            senderId={comment.sender.userId}
+                            commentId={comment.commentId}
+                        />
                     </div>
                     <div>
                         <div

@@ -2,9 +2,8 @@ import { Metadata, ResolvingMetadata } from "next";
 
 import siteMetadata from "@/lib/siteMetadata";
 import blogService, { GetBlogDetailProps } from "@/lib/services/blog.service";
-
-import commentService from "@/lib/services/comment.service";
 import BlogDetailTemplate from "@/components/modules/Blog/Template/BlogDetailTemplate";
+import commentService from "@/lib/services/comment.service";
 
 type Props = {
     params: { slugBlog: string };
@@ -37,27 +36,15 @@ export async function generateMetadata(
     };
 }
 
-// export async function generateStaticParams() {
-//     const blogsRes = await blogService.findAllSEO();
-//     if(!blogsRes?.success) {
-//         return []
-//     }
-   
-//     return blogsRes.blogs.map((blog: any) => ({
-//         slugBlog: `${blog?.slug}-${blog?.blogId}`,
-//     }))
-// }
-
 const BlogDetailPage = async ({ params }: Props) => {
     const { blog } = await blogService.getBlogDetail({
         query: params.slugBlog,
-        // next: { revalidate: 3 * 60 * 60 },
+        next: { revalidate: 3 * 60 * 60 },
     });
     const { comments } = await commentService.getComments({
         query: `?blogId=${
             params.slugBlog.replace(/.*[^0-9]/, '')
         }`,
-        next: { revalidate: 60 * 60 },
     });
 
     return (

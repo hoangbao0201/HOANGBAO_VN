@@ -1,23 +1,28 @@
 "use client"
 
-import { useDispatch } from "react-redux";
 import { GetBlogDetailProps } from "@/lib/services/blog.service";
-import { GetCommentsProps } from "@/lib/services/comment.service";
-import { setCommentsBlogDetailRDHandle } from "@/redux/commentsBlogDetail";
 import ContentBlogDetail from "@/components/modules/Blog/ContentBlogDetail";
 import SkeletonCardBlog from "@/components/modules/skeletons/SkeletonCardBlog";
 import SidebarLeftBlogDetail from "@/components/modules/Blog/SideLeftBlogDetail";
 import SidebarRightBlogDetail from "@/components/modules/Blog/SideRightBlogDetail";
+import { useDispatch, useSelector } from "react-redux";
+import { RootStateCommentsBlogDetail, setCommentsBlogDetailRDHandle } from "@/redux/commentsBlogDetail";
+import { GetCommentsProps } from "@/lib/services/comment.service";
+import { useEffect } from "react";
 
 
 interface BlogDetailTemplateProps {
     blog: GetBlogDetailProps
-    comments: GetCommentsProps[]
+    comments: GetCommentsProps
 }
 const BlogDetailTemplate = ({ blog, comments }: BlogDetailTemplateProps) => {
-    
     const dispatch = useDispatch();
-    dispatch(setCommentsBlogDetailRDHandle(comments));
+    const { isLoadingBlogDetail } = useSelector(
+        (state: RootStateCommentsBlogDetail) => state.commentsBlogDetail
+    );
+    useEffect(() => {
+        dispatch(setCommentsBlogDetailRDHandle(comments));
+    }, [])
 
     return (
         <main className="max-w-7xl w-full min-h-screen mx-auto mb-4">

@@ -10,7 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
     CommentsBlogDetailProps,
     RootStateCommentsBlogDetail,
-    setReplyCommentsBlogDetailRDHandle,
+    addReplyCommentsBlogDetailRDHandle,
 } from "@/redux/commentsBlogDetail";
 import ItemReplyComment from "./ItemReplyComment";
 
@@ -34,7 +34,7 @@ const CardComment = ({ comment }: CardCommentProps) => {
             });
             if (replyCommentsRes?.success) {
                 dispatch(
-                    setReplyCommentsBlogDetailRDHandle({
+                    addReplyCommentsBlogDetailRDHandle({
                         commentId: comment.commentId,
                         replyComments: replyCommentsRes?.comments,
                     })

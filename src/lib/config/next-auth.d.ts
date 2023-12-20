@@ -5,8 +5,11 @@ declare module "next-auth" {
         user: {
             userId: number
             name: string
-            roleId: number
-            username: "admin" | "user"
+            role: {
+                roleId: number
+                roleName: "admin" | "user"
+            }
+            username: string
             avatarUrl: string | null
             candy: number
             description: string | null
@@ -31,8 +34,11 @@ declare module "next-auth/jwt" {
         user: {
             userId: number
             name: string
-            roleId: number
-            username: "admin" | "user"
+            role: {
+                roleId: number
+                roleName: "admin" | "user"
+            }
+            username: string
             avatarUrl: string | null
             candy: number
             description: string | null

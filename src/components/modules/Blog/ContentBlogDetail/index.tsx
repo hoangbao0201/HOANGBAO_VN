@@ -11,6 +11,7 @@ import TagsBlog from "@/components/common/TagsBlog";
 import AvatarRank from "@/components/common/AvatarRank";
 import MDXComponent from "@/components/common/MDXContent";
 import blogService, { GetBlogDetailProps } from "@/lib/services/blog.service";
+import { GetCommentsProps } from "@/lib/services/comment.service";
 
 
 interface ContentBlogDetailProps {
@@ -104,7 +105,7 @@ const ContentBlogDetail = ({ blog }: ContentBlogDetailProps) => {
                 </div>
 
                 <div>
-                    <ContentComment blog={blog}/>
+                    <ContentComment blog={blog} />
                 </div>
             </div>
         </>

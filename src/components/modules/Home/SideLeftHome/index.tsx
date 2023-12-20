@@ -1,29 +1,35 @@
 import Link from "next/link";
 import IconHome from "../../icons/IconHome";
-import IconPopular from "../../icons/IconPopular";
 import IconClock from "../../icons/IconClock";
 import IconTopic from "../../icons/IconTopic";
+import IconSignalStream from "../../icons/IconSignalStream";
+import IconChartLine from "../../icons/IconChartLine";
 
 const SideBarNavigationMainData = [
     {
         title: 'Trang chủ',
         link: "/",
-        icon: <IconHome size={22} />
+        icon: <IconHome size={20} />
     },
     {
         title: 'Phổ biến',
         link: "/",
-        icon: <IconPopular size={22} />
+        icon: <IconChartLine size={20} />
     },
     {
         title: 'Lịch sử',
         link: "/",
-        icon: <IconClock size={22} />
+        icon: <IconClock size={20} />
     },
     {
         title: 'Chủ đề',
         link: "/tags",
-        icon: <IconTopic size={22} />
+        icon: <IconTopic size={20} />
+    },
+    {
+        title: 'Live',
+        link: "/watch/live",
+        icon: <IconSignalStream size={22} />
     },
 ];
 
@@ -41,7 +47,7 @@ const SideLeftHome = () => {
                                         className="text-gray-700 flex items-center px-3 py-2 space-x-3 hover:bg-white/90 rounded-md"
                                     >
                                         {item.icon && (
-                                            <i className="flex-shrink-0">{item.icon}</i>
+                                            <i className="flex-shrink-0 fill-gray-500 stroke-gray-500">{item.icon}</i>
                                         )}
                                         <p>{item.title}</p>
                                     </div>
