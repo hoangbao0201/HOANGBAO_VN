@@ -6,7 +6,6 @@ import { authOptions } from "@/utils/authOptions";
 import blogService from "@/lib/services/blog.service";
 import FormEditBlog from "@/components/modules/Create/FormEditBlog";
 
-
 type Props = {
     params: { slugBlog: string };
     searchParams: { [key: string]: string | string[] | undefined };
@@ -25,7 +24,7 @@ const EditBlogPage = async ({ params }: Props) => {
     }
 
     return (
-        <FormEditBlog blog={blog}/>
+        <FormEditBlog blog={blog} />
     );
 };
 

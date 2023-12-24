@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import Modal from "@/components/common/Modal";
 import IconCheckMark from "../../icons/IconCheckMark";
-import { EditBlogSlideProps, addImageBlogEditRDHandle } from "@/redux/blogEditSlide";
+import { EditBlogSlideProps, addImageContentBlogEditRDHandle } from "@/redux/blogEditSlide";
 
 interface ListImageEditBlogProps {}
 const ListImageEditBlog = ({}: ListImageEditBlogProps) => {
@@ -51,7 +51,7 @@ const ListImageEditBlog = ({}: ListImageEditBlogProps) => {
     };
 
     const handleAddImage = (imageId: number, url: string) => {
-        dispatch(addImageBlogEditRDHandle(`![](${url})`));
+        dispatch(addImageContentBlogEditRDHandle(`![](${url})`));
     }
 
     return (

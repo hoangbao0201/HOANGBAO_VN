@@ -33,16 +33,22 @@ export const counterSlice = createSlice({
         setIsSaveBlogEditRDHandle: (state, action) => {
             state.isSave = action.payload;
         },
-        addImageBlogEditRDHandle: (state, action) => {
+        addImageContentBlogEditRDHandle: (state, action) => {
             if(state.blogEdit) {
                 state.blogEdit.content += action.payload;
+            }
+            state.isSave = false;
+        },
+        addImageBlogEditRDHandle: (state, action) => {
+            if(state.blogEdit) {
+                state.blogEdit.blogImages.push(action.payload)
             }
             state.isSave = false;
         },
     },
 });
 
-export const { setBlogEditRDHandle, setIsSaveBlogEditRDHandle, addImageBlogEditRDHandle } =
+export const { setBlogEditRDHandle, setIsSaveBlogEditRDHandle, addImageContentBlogEditRDHandle, addImageBlogEditRDHandle } =
     counterSlice.actions;
 
 export default counterSlice.reducer;

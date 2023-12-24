@@ -3,22 +3,29 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useEffect } from "react";
-
+import { useDispatch } from "react-redux";
 import { useSession } from "next-auth/react";
+
 import convertTime from "@/utils/convertTime";
 import ContentComment from "../ContentComment";
 import TagsBlog from "@/components/common/TagsBlog";
 import AvatarRank from "@/components/common/AvatarRank";
-import MDXComponent from "@/components/common/MDXContent";
-import blogService, { GetBlogDetailProps } from "@/lib/services/blog.service";
+import MDXContent from "@/components/common/MDXSource/MDXContent";
 import { GetCommentsProps } from "@/lib/services/comment.service";
+import { setCommentsBlogDetailRDHandle } from "@/redux/commentsBlogDetail";
+import blogService, { GetBlogDetailProps } from "@/lib/services/blog.service";
+
 
 
 interface ContentBlogDetailProps {
+    content: any
     blog: GetBlogDetailProps;
+    comments: GetCommentsProps
 }
-const ContentBlogDetail = ({ blog }: ContentBlogDetailProps) => {
+const ContentBlogDetail = ({ blog, content, comments }: ContentBlogDetailProps) => {
+    const dispatch = useDispatch();
     const { data: session, status } = useSession();
+
     useEffect(() => {
         if (status !== "loading") {
             const delay = 10000;
@@ -32,6 +39,10 @@ const ContentBlogDetail = ({ blog }: ContentBlogDetailProps) => {
             return () => clearTimeout(timeoutId);
         }
     }, [status]);
+
+    useEffect(() => {
+        dispatch(setCommentsBlogDetailRDHandle(comments));
+    }, [])
 
     return (
         <>
@@ -86,10 +97,10 @@ const ContentBlogDetail = ({ blog }: ContentBlogDetailProps) => {
                                 </div>
                             </div>
                             <h1
-                                title={blog.title}
+                                title={blog?.title}
                                 className="font-extrabold text-4xl md:px-8 px-4 relative block"
                             >
-                                {blog.title}
+                                {blog?.title}
                             </h1>
                             <TagsBlog
                                 className="md:px-8 px-4 mt-5 mb-6"
@@ -97,11 +108,19 @@ const ContentBlogDetail = ({ blog }: ContentBlogDetailProps) => {
                             />
                         </header>
                         <div className="md:px-8 px-4 mb-5">
-                            <MDXComponent>{blog.content}</MDXComponent>
+                            <MDXContent
+                                content={content}
+                            />
+                            {/* <MarkdownContent
+                                content={content}
+                            /> */}
+                            {/* { content && <MDXRemote {content} components={{}} /> } */}
+                            
+                            {/* {JSON.stringify(content)} */}
+                            {/* <MDXContent content={content}/> */}
                         </div>
                     </article>
 
-                    
                 </div>
 
                 <div>

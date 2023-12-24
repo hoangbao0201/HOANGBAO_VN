@@ -1,7 +1,7 @@
 "use client"
 
 import { useSession } from "next-auth/react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 import { useDispatch, useSelector } from "react-redux";
 
@@ -9,8 +9,8 @@ import ListImageEditBlog from "./ListImageBlog";
 import EditBlogConfirm from "./EditBlogConfirm";
 import { useDebounce } from "@/hook/useDebounce";
 import EditorMarkdown from "@/components/common/EditorMarkdown";
-import { setIsSaveBlogEditRDHandle, setBlogEditRDHandle } from "@/redux/blogEditSlide";
 import blogService, { GetBlogEditProps } from "@/lib/services/blog.service";
+import { setIsSaveBlogEditRDHandle, setBlogEditRDHandle } from "@/redux/blogEditSlide";
 
 
 interface FormEditBlogProps {
@@ -20,15 +20,17 @@ const FormEditBlog = ({ blog } : FormEditBlogProps) => {
 
     const dispatch = useDispatch();
     const { blogEdit, isSave } = useSelector((state: any) => state.blogEdit);
+    const [isLoad, setIsLoad] = useState(false);
 
-    const contentBlogEditDebounce = useDebounce(JSON.stringify(blogEdit), 3000);
+    const contentBlogEditDebounce = useDebounce(JSON.stringify(blogEdit), 2000);
 
     // SESSION
     const { data: session, status } = useSession();
 
     // Onchange Data Blog
     const eventOnchangeDataBlog = (data: { [key: string]: any }) => {
-        dispatch(setIsSaveBlogEditRDHandle(false));     
+        // dispatch(setIsSaveBlogEditRDHandle(false)); 
+        setIsLoad(true);
         dispatch(setBlogEditRDHandle({
             ...blogEdit,
             ...data
@@ -52,16 +54,19 @@ const FormEditBlog = ({ blog } : FormEditBlogProps) => {
         } catch (error) {
             
         }
+
+        dispatch(setIsSaveBlogEditRDHandle(true)); 
     }
     
     useEffect(() => {
-        if(isSave) {
-            dispatch(setBlogEditRDHandle(blog));
-            console.log("load lần đầu")
-        }
-        else {
+        if(isLoad) {
+            dispatch(setIsSaveBlogEditRDHandle(false));
             handleSaveEditBlog()
             console.log("lưu bài viết")
+        }
+        else {
+            dispatch(setBlogEditRDHandle(blog));
+            console.log("load lần đầu")
         }
     }, [contentBlogEditDebounce]);
 
@@ -88,8 +93,9 @@ const FormEditBlog = ({ blog } : FormEditBlogProps) => {
                 <div>
                     {session ? (
                         <EditorMarkdown
-                            lastEdited={blogEdit?.updatedAt}
+                            blogId={blogEdit?.blogId}
                             content={blogEdit?.content}
+                            lastEdited={blogEdit?.updatedAt}
                             onchangeContent={eventOnchangeDataBlog}
                         />
                     ) : (

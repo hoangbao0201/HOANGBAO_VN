@@ -13,11 +13,9 @@ import Modal from "@/components/common/Modal";
 import { textToSlug } from "@/utils/testToSlug";
 import blogService from "@/lib/services/blog.service";
 import imageService from "@/lib/services/image.service";
-import MDXComponent from "@/components/common/MDXContent";
 import { ShowToastify } from "@/components/common/ShowToastify";
 import IconAlertCircle from "@/components/modules/icons/IconAlertCircle";
-
-
+import MDXContentEdit from "@/components/common/MDXSource/MDXContentEdit";
 
 interface Option {
     label: string;
@@ -235,13 +233,7 @@ const CreateBlogPage = () => {
                                 className="w-full min-h-screen border-none"
                                 onChange={eventOnchangeEditorChange}
                                 onImageUpload={handleUploadImageBlog}
-                                renderHTML={(text) => {
-                                    return (
-                                        <MDXComponent>
-                                            {text}
-                                        </MDXComponent>
-                                    );
-                                }}
+                                renderHTML={(text) => <MDXContentEdit content={text}/>}
                             />
                         ) : (
                             <div className="w-full min-h-screen border-none"></div>

@@ -24,7 +24,7 @@ class ImageService {
             //     body: formData,
             // });
 
-            const imageRes = await axios.post(`${API_BASE_URL}/api/images/cloudinary/upload/blog${query}`, dataImage, {
+            const imageRes = await axios.post(`${API_BASE_URL}/api/images/cloudinary/upload/blog${query || ""}`, dataImage, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }

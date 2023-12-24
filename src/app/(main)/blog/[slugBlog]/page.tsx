@@ -1,9 +1,9 @@
 import { Metadata, ResolvingMetadata } from "next";
 
 import siteMetadata from "@/lib/siteMetadata";
+import commentService from "@/lib/services/comment.service";
 import blogService, { GetBlogDetailProps } from "@/lib/services/blog.service";
 import BlogDetailTemplate from "@/components/modules/Blog/Template/BlogDetailTemplate";
-import commentService from "@/lib/services/comment.service";
 
 type Props = {
     params: { slugBlog: string };

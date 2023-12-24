@@ -2,8 +2,10 @@ import IconComment from "../../icons/IconComment";
 import IconHear from "../../icons/IconHear";
 import IconSave from "../../icons/IconSave";
 
-interface SidebarLeftBlogDetailProps {}
-const SidebarLeftBlogDetail = ({}: SidebarLeftBlogDetailProps) => {
+
+interface SidebarLeftBlogDetailProps {
+}
+const SidebarLeftBlogDetail = ({  }: SidebarLeftBlogDetailProps) => {
     return (
         <aside className="sticky top-[72px]">
             <div className="bg-white px-3 py-4 shadow-sm rounded-md">
